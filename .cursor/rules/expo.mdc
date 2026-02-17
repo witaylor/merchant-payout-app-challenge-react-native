@@ -1,0 +1,140 @@
+---
+description: Expo best practices for this merchant payout app—structure, patterns, and conventions
+globs: **/*
+---
+
+# Expo Best Practices (Merchant Payout App)
+
+This document outlines standards for Expo development in this project. Adhere to these guidelines for consistency, performance, and maintainability.
+
+## 1. Code Organization and Structure
+
+This project uses a flat root structure (no `src/` directory):
+
+- **Root Structure:**
+  - `app/`: Expo Router—file-based routing, layouts, screens (`(tabs)/`, `modal.tsx`).
+  - `components/`: Reusable UI components (subdirs: `home/`, `recent-activity/`, `ui/`).
+  - `hooks/`: Custom React hooks.
+  - `utils/`: Utility functions (e.g. `format.ts` for `formatAmount`, `formatDate`).
+  - `constants/`: Theme, API config (`theme.ts`, `index.ts`).
+  - `types/`: TypeScript types (`api.ts` for API responses).
+  - `mocks/`: MSW handlers and server setup.
+- **Path Alias:** Use `@/` for imports (e.g. `@/components/`, `@/hooks/`, `@/utils/`).
+- **Naming Conventions:**
+  - **Files/Folders:** `kebab-case` for directories, `PascalCase` for components, `camelCase` for hooks/utils.
+  - **Components:** `PascalCase` (e.g. `BalanceItem.tsx`, `RecentActivityItem.tsx`).
+  - **Variables/Functions:** `camelCase` (e.g. `userName`, `fetchData`).
+  - **Constants:** `UPPER_SNAKE_CASE` for global constants.
+
+## 2. Component Best Practices
+
+- **Functional Components with Hooks:** Always use functional components.
+  ❌ BAD:
+
+  ```typescript
+  class MyComponent extends React.Component {
+    /* ... */
+  }
+  ```
+
+  ✅ GOOD:
+
+  ```typescript
+  const MyComponent: React.FC = () => {
+    /* ... */
+  };
+  ```
+
+- **TypeScript for Type Safety:** All new code must be in TypeScript. Use types from `types/api.ts` for API data.
+  ❌ BAD:
+
+  ```javascript
+  function greet(name) {
+    return `Hello, ${name}`;
+  }
+  ```
+
+  ✅ GOOD:
+
+  ```typescript
+  const greet = (name: string): string => `Hello, ${name}`;
+  ```
+
+- **Styling with `StyleSheet`:** Centralize styles for readability and performance.
+  ❌ BAD:
+
+  ```typescript
+  <Text style={{ fontSize: 16, color: 'blue' }}>Hello</Text>
+  ```
+
+  ✅ GOOD:
+
+  ```typescript
+  import { StyleSheet, Text } from 'react-native';
+  const MyComponent = () => <Text style={styles.text}>Hello</Text>;
+  const styles = StyleSheet.create({ text: { fontSize: 16, color: 'blue' } });
+  ```
+
+- **Shared Formatting:** Use `utils/format.ts` for amounts and dates—do not inline `formatDate` or `formatAmount` in components.
+
+## 3. Navigation with Expo Router
+
+- **File-System Based Routing:** Use `app/` directory. Tab screens in `app/(tabs)/`, modals in `app/modal.tsx`.
+  ✅ GOOD:
+
+  ```
+  // app/_layout.tsx
+  import { Stack } from 'expo-router';
+  export default function RootLayout() { return <Stack />; }
+
+  // app/(tabs)/index.tsx (maps to /)
+  export default function HomePage() { /* ... */ }
+
+  // app/(tabs)/payouts.tsx
+  export default function PayoutsPage() { /* ... */ }
+
+  // app/modal.tsx
+  export default function ModalScreen() { /* ... */ }
+  ```
+
+## 4. Data & State Management
+
+- **TanStack Query:** This project uses `@tanstack/react-query` for server state. Prefer `useQuery`/`useMutation` over raw `fetch` + `useState`.
+- **Immutable State Updates:** Always create new objects/arrays when updating state.
+  ❌ BAD:
+
+  ```typescript
+  user.name = "Bob";
+  setUser(user);
+  ```
+
+  ✅ GOOD:
+
+  ```typescript
+  setUser((prev) => ({ ...prev, name: "Bob" }));
+  ```
+
+- **`useEffect` Dependency Arrays:** Manage dependencies to avoid unnecessary re-renders or infinite loops.
+  ❌ BAD: `useEffect(() => { fetchData(); });`
+  ✅ GOOD: `useEffect(() => { fetchData(); }, []);`
+
+## 5. Environment Variables
+
+- **`EXPO_PUBLIC_` Prefix:** Use `.env` with `EXPO_PUBLIC_` for client-side variables.
+- **Never** store sensitive keys in `EXPO_PUBLIC_`—they are bundled client-side. Use EAS Secrets for server-side secrets.
+
+## 6. Performance Considerations
+
+- **`React.memo` for Pure Components:** Wrap pure list items (e.g. `RecentActivityItem`) to prevent re-renders.
+- **`useCallback` and `useMemo`:** Memoize handlers and values passed to memoized children.
+
+## 7. Error Handling
+
+- **`try/catch` for Async Operations:** Handle errors in async code and show user-friendly messages.
+- **Global Error Boundary:** For critical UI errors, wrap the app in `app/_layout.tsx` with an `ErrorBoundary` in `components/`.
+
+## 8. Testing
+
+- **Jest & React Native Testing Library:** Tests live alongside source files or in `__tests__/` (e.g. `components/Button.test.tsx`).
+- **MSW:** API mocking is in `mocks/`. Use existing handlers for integration-style tests.
+- Aim for ≥80% coverage where practical.

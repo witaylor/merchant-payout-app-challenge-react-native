@@ -1,0 +1,202 @@
+---
+description: React Native patterns and conventions for this merchant payout app—components, styling, accessibility, performance
+globs: **/*.{js,jsx,ts,tsx}
+---
+
+# React Native Best Practices (Merchant Payout App)
+
+Guidelines for building robust, performant, and maintainable React Native code in this project. Complements the Expo and React Query rules.
+
+## 1. Code Organization and Structure
+
+This project uses a flat root structure (no `src/`). See `expo.mdc` for full structure.
+
+### 1.1. Component Grouping by Domain
+
+Group related components in subdirectories. Each component file is self-contained; styles may live in the same file or a co-located `.styles.ts` if large.
+
+**✅ GOOD (project structure):**
+
+```plaintext
+components/
+├── recent-activity/
+│   ├── recent-activity-item.tsx
+│   ├── compact-recent-activity-item.tsx
+│   └── recent-activity-list.tsx
+├── home/
+│   └── balance-item.tsx
+├── ui/
+│   ├── icon-symbol.tsx
+│   └── collapsible.tsx
+└── balance-item.tsx
+```
+
+### 1.2. File Naming and Imports
+
+- **Components:** `PascalCase.tsx` (e.g. `RecentActivityItem.tsx`, `BalanceItem.tsx`).
+- **Hooks/Utils:** `camelCase.ts` (e.g. `use-balance.ts`, `format.ts`).
+- **Path Alias:** Use `@/` for imports (`@/components/`, `@/hooks/`, `@/utils/`, `@/types/`).
+
+**❌ BAD:**
+
+```typescript
+import { Button } from "../../../components/Button";
+```
+
+**✅ GOOD:**
+
+```typescript
+import { formatAmount } from "@/utils/format";
+import type { ActivityItem } from "@/types/api";
+```
+
+### 1.3. One Component Per File
+
+Each `.tsx` file should export one main React component (default or named). Small helper components may be co-located if tightly coupled.
+
+## 2. Component Architecture
+
+### 2.1. Functional Components with Hooks
+
+Always use functional components. Class components are deprecated.
+
+**✅ GOOD:**
+
+```typescript
+import React from "react";
+const RecentActivityItem: React.FC<RecentActivityItemProps> = ({ item }) => {
+  /* ... */
+};
+```
+
+### 2.2. Custom Hooks for Reusable Logic
+
+Extract stateful or data-fetching logic into hooks in `hooks/`.
+
+**✅ GOOD:**
+
+```typescript
+// hooks/use-merchant.ts
+export function useMerchant() {
+  return useQuery({ queryKey: ["merchant"], queryFn: fetchMerchant });
+}
+
+// In component
+import { useMerchant } from "@/hooks/use-merchant";
+```
+
+### 2.3. Presentational vs. Container
+
+- **Presentational:** Receive data via props, render UI, no direct API calls. Example: `BalanceItem`, `RecentActivityItem`.
+- **Container/Screen:** Live in `app/`, fetch data (e.g. via `useQuery`), pass data/callbacks to presentational components.
+
+## 3. State Management
+
+- **Server State:** Use TanStack Query (`useQuery`, `useMutation`). See `react-query.mdc`.
+- **Local UI State:** Use `useState` and `useReducer`. No Redux in this project.
+- **Immutable Updates:** Never mutate state directly; always use setters with new objects/arrays.
+
+## 4. Styling
+
+### 4.1. StyleSheet.create
+
+Use `StyleSheet.create` for performance. Styles may be defined at the bottom of the component file or in a co-located `.styles.ts` for larger components.
+
+**❌ BAD:**
+
+```typescript
+<View style={{ flexDirection: 'row', justifyContent: 'space-between' }} />
+```
+
+**✅ GOOD:**
+
+```typescript
+const styles = StyleSheet.create({
+  container: { flexDirection: 'row', justifyContent: 'space-between' },
+});
+<View style={styles.container} />
+```
+
+### 4.2. Theming
+
+Use `constants/theme.ts` for colors, fonts, and spacing. Prefer themed components (e.g. `ThemedText`, `ThemedView`) for consistency across light/dark mode.
+
+### 4.3. Platform-Specific Code
+
+Use `Platform.select` for iOS/Android differences.
+
+```typescript
+import { Platform, StyleSheet } from "react-native";
+
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: Platform.select({ ios: 20, android: 0 }),
+  },
+});
+```
+
+## 5. Navigation
+
+This project uses **Expo Router** (file-based). No separate `navigation/` directory. See `expo.mdc` for routing.
+
+## 6. API Calls
+
+- **Data Fetching:** Use TanStack Query; encapsulate API logic in hooks (e.g. `useMerchant`, `useTransactions`) or query functions.
+- **Mocking:** MSW in `mocks/` intercepts requests. No `axios` service layer.
+
+## 7. Performance
+
+- **`React.memo`:** Wrap list items (e.g. `RecentActivityItem`) when used in `FlatList`/`ScrollView` with many items.
+- **`useCallback` / `useMemo`:** Memoize callbacks and values passed to memoized children.
+- **Virtualized Lists:** Use `FlatList` or `SectionList` for large lists.
+
+**✅ GOOD:**
+
+```typescript
+const renderItem = useCallback(
+  ({ item }: { item: ActivityItem }) => <RecentActivityItem item={item} />,
+  []
+);
+<FlatList data={items} renderItem={renderItem} />
+```
+
+## 8. Accessibility
+
+Use semantic props for interactive elements.
+
+```typescript
+<TouchableOpacity
+  onPress={handlePress}
+  accessibilityLabel="Tap to submit payout"
+  accessibilityRole="button"
+>
+  <Text>Confirm</Text>
+</TouchableOpacity>
+```
+
+## 9. Testing
+
+- **Jest + React Native Testing Library:** Co-locate tests (`.test.tsx`) or use `__tests__/`.
+- **MSW:** Use handlers in `mocks/` for API-dependent tests.
+- **Detox:** Optional for E2E; not required for this project.
+
+## 10. Common Pitfalls
+
+### 10.1. Direct State Mutation
+
+**❌ BAD:** `user.name = 'Jane'; setUser(user);`
+**✅ GOOD:** `setUser(prev => ({ ...prev, name: 'Jane' }));`
+
+### 10.2. Conditional Rendering with `&&`
+
+`{showMessage && <Text>Hello</Text>}` can render `0` or `false` as text. Prefer ternaries:
+
+**✅ GOOD:**
+
+```typescript
+{showMessage ? <Text>Hello</Text> : null}
+```
+
+### 10.3. Platform Differences
+
+Always test on both iOS and Android. Use `Platform.select` for platform-specific styles or logic.
