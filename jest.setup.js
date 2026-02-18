@@ -1,5 +1,8 @@
 import { server } from "./mocks/server.jest";
 
+// Use fake timers to prevent React Query / MSW timers from keeping Jest alive
+jest.useFakeTimers({ legacyFakeTimers: false });
+
 // Establish API mocking before all tests
 beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
 
