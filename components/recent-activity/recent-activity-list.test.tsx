@@ -47,10 +47,17 @@ describe("RecentActivityList", () => {
   it("renders at most 3 items from activities", () => {
     render(<RecentActivityList activities={mockActivity} />);
 
+    const items = screen.getAllByTestId("list-item");
+    expect(items).toHaveLength(3);
     expect(screen.getByText("Payment from Customer ABC")).toBeTruthy();
-    expect(screen.getByText("Payout to Bank Account ****1234")).toBeTruthy();
-    expect(screen.getByText("Payment from Customer XYZ")).toBeTruthy();
     expect(screen.queryByText("Monthly service fee")).toBeNull();
+  });
+
+  it("renders all items when fewer than limit", () => {
+    const twoActivities = mockActivity.slice(0, 2);
+    render(<RecentActivityList activities={twoActivities} />);
+
+    expect(screen.getAllByTestId("list-item")).toHaveLength(2);
   });
 
   it("renders Show more button in list footer", () => {
