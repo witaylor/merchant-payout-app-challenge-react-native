@@ -18,8 +18,17 @@ describe("formatAmount", () => {
 });
 
 describe("formatDate", () => {
-  it("formats ISO and date-only strings to DD MM YYYY", () => {
+  it("formats ISO and date-only strings to DD MM YYYY by default", () => {
     expect(formatDate("2026-02-17T17:21:34.658Z")).toBe("17 02 2026");
     expect(formatDate("2026-01-05")).toBe("05 01 2026");
+  });
+
+  it("formats date to DD MMM YYYY with monthStyle abbreviated", () => {
+    expect(formatDate("2026-01-23T10:00:00Z", { monthStyle: "abbreviated" })).toBe(
+      "23 Jan 2026",
+    );
+    expect(formatDate("2026-01-05", { monthStyle: "abbreviated" })).toBe(
+      "05 Jan 2026",
+    );
   });
 });

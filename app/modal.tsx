@@ -1,17 +1,85 @@
-import { Link } from "expo-router";
-import { StyleSheet } from "react-native";
+import { useRouter } from "expo-router";
+import { useCallback } from "react";
+import { StyleSheet, View } from "react-native";
 
+import { RecentActivityModalHeader } from "@/components/recent-activity/recent-activity-modal-header";
+import { RecentActivityModalList } from "@/components/recent-activity/recent-activity-modal-list";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
-import { spacing } from "@/constants/theme";
+import { ErrorView } from "@/components/ui/error-view";
+import { LoadingView } from "@/components/ui/loading-view";
+import { ScreenContent } from "@/components/ui/screen-content";
+import { Colors, spacing } from "@/constants/theme";
+import { useActivity } from "@/hooks/use-activity";
+import { useColorScheme } from "@/hooks/use-color-scheme";
 
 export default function ModalScreen() {
+  const router = useRouter();
+  const colorScheme = useColorScheme();
+  const theme = colorScheme === "dark" ? "dark" : "light";
+  const tintColor = Colors[theme].tint;
+
+  const {
+    activities,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useActivity();
+
+  const handleDone = useCallback(() => {
+    router.back();
+  }, [router]);
+
+  const handleLoadMore = useCallback(() => {
+    fetchNextPage();
+  }, [fetchNextPage]);
+
+  const handleRetry = useCallback(() => {
+    refetch();
+  }, [refetch]);
+
+  const body = isLoading ? (
+    <LoadingView
+      size="large"
+      centered
+      accessibilityLabel="Loading recent activity"
+    />
+  ) : isError ? (
+    <ErrorView
+      message={
+        error?.message ?? (error ? String(error) : "Unable to load activity")
+      }
+      onRetry={handleRetry}
+      retryAccessibilityHint="Retries loading the activity list"
+      centered
+    />
+  ) : activities.length === 0 ? (
+    <View style={styles.emptyContainer} accessibilityLabel="No recent activity">
+      <ThemedText style={styles.emptyText}>No recent activity</ThemedText>
+    </View>
+  ) : (
+    <RecentActivityModalList
+      activities={activities}
+      onLoadMore={handleLoadMore}
+      hasMore={hasNextPage ?? false}
+      isLoadingMore={isFetchingNextPage}
+    />
+  );
+
   return (
-    <ThemedView style={styles.container}>
-      <ThemedText type="title">This is a modal</ThemedText>
-      <Link href="/" dismissTo style={styles.link}>
-        <ThemedText type="link">Go to home screen</ThemedText>
-      </Link>
+    <ThemedView
+      style={styles.container}
+      accessibilityViewIsModal
+      importantForAccessibility="yes"
+    >
+      <ScreenContent>
+        <RecentActivityModalHeader onDone={handleDone} tintColor={tintColor} />
+        {body}
+      </ScreenContent>
     </ThemedView>
   );
 }
@@ -19,12 +87,14 @@ export default function ModalScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: spacing(2.5),
   },
-  link: {
-    marginTop: spacing(2),
+  emptyContainer: {
+    flex: 1,
+    justifyContent: "center",
+    paddingHorizontal: spacing(2),
     paddingVertical: spacing(2),
+  },
+  emptyText: {
+    opacity: 0.8,
   },
 });

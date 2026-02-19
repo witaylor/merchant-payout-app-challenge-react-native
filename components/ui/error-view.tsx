@@ -8,19 +8,32 @@ type ErrorViewProps = {
   message: string;
   onRetry: () => void;
   centered?: boolean;
+  /** Optional hint for the Retry button (e.g. "Retries loading the activity list") */
+  retryAccessibilityHint?: string;
 };
 
 export function ErrorView({
   message,
   onRetry,
   centered = false,
+  retryAccessibilityHint = "Retries the failed action",
 }: ErrorViewProps) {
   return (
-    <View style={[styles.container, centered && styles.centered]}>
+    <View
+      style={[styles.container, centered && styles.centered]}
+      accessibilityRole="alert"
+      accessibilityLabel={`Error: ${message}`}
+    >
       <ThemedText type="subtitle" style={styles.message}>
         {message}
       </ThemedText>
-      <Button variant="error" onPress={onRetry} style={styles.retryButton}>
+      <Button
+        variant="error"
+        onPress={onRetry}
+        style={styles.retryButton}
+        accessibilityLabel="Retry"
+        accessibilityHint={retryAccessibilityHint}
+      >
         Retry
       </Button>
     </View>

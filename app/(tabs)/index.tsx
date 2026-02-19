@@ -1,5 +1,4 @@
 import { StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 import { AccountBalanceSection } from "@/components/balance-section";
 import { RecentActivityListSection } from "@/components/recent-activity";
@@ -7,6 +6,7 @@ import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { ErrorView } from "@/components/ui/error-view";
 import { LoadingView } from "@/components/ui/loading-view";
+import { ScreenContent } from "@/components/ui/screen-content";
 import { spacing } from "@/constants/theme";
 import { useMerchant } from "@/hooks/use-merchant";
 
@@ -16,12 +16,9 @@ export default function HomeScreen() {
   if (isLoading) {
     return (
       <ThemedView style={styles.container}>
-        <SafeAreaView
-          style={styles.safeContent}
-          edges={["top", "left", "right"]}
-        >
+        <ScreenContent style={styles.safeContent}>
           <LoadingView size="large" centered />
-        </SafeAreaView>
+        </ScreenContent>
       </ThemedView>
     );
   }
@@ -29,23 +26,20 @@ export default function HomeScreen() {
   if (isError) {
     return (
       <ThemedView style={styles.container}>
-        <SafeAreaView
-          style={styles.safeContent}
-          edges={["top", "left", "right"]}
-        >
+        <ScreenContent style={styles.safeContent}>
           <ErrorView
             message={error?.message ?? "Unable to load account"}
             onRetry={() => refetch()}
             centered
           />
-        </SafeAreaView>
+        </ScreenContent>
       </ThemedView>
     );
   }
 
   return (
     <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeContent} edges={["top", "left", "right"]}>
+      <ScreenContent style={styles.safeContent}>
         <ThemedView style={styles.header}>
           <ThemedText type="title">Business Account</ThemedText>
         </ThemedView>
@@ -57,7 +51,7 @@ export default function HomeScreen() {
         />
 
         <RecentActivityListSection activities={data?.activity ?? []} />
-      </SafeAreaView>
+      </ScreenContent>
     </ThemedView>
   );
 }
@@ -67,11 +61,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   safeContent: {
-    flex: 1,
     padding: spacing(2),
-    width: "100%",
-    maxWidth: 500,
-    alignSelf: "center",
   },
   header: {
     marginBottom: spacing(3),
