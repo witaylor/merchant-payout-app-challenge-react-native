@@ -4,9 +4,7 @@ import { Colors } from "@/constants/theme";
 
 import { Button } from "./button";
 
-jest.mock("@/hooks/use-color-scheme", () => ({
-  useColorScheme: () => "light" as const,
-}));
+jest.mock("@/hooks/use-color-scheme");
 
 describe("Button", () => {
   it("renders children", () => {

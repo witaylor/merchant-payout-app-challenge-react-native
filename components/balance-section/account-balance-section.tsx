@@ -8,17 +8,17 @@ import { formatAmount } from "@/utils/format";
 
 import { BalanceItem } from "./balance-item";
 
-type AccountBalanceProps = {
+type AccountBalanceSectionProps = {
   available_balance?: number;
   pending_balance?: number;
   currency?: Currency;
 };
 
-export function AccountBalance({
+export function AccountBalanceSection({
   available_balance = 0,
   pending_balance = 0,
   currency = "GBP",
-}: AccountBalanceProps) {
+}: AccountBalanceSectionProps) {
   return (
     <ThemedView style={styles.section}>
       <ThemedText type="subtitle">Account Balance</ThemedText>

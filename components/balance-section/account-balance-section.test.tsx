@@ -1,10 +1,10 @@
 import { render, screen } from "@testing-library/react-native";
 
-import { AccountBalance } from "./account-balance";
+import { AccountBalanceSection } from "./account-balance-section";
 
-describe("AccountBalance", () => {
+describe("AccountBalanceSection", () => {
   it("renders section title and labels with default zero values", () => {
-    render(<AccountBalance />);
+    render(<AccountBalanceSection />);
 
     expect(screen.getByText("Account Balance")).toBeTruthy();
     expect(screen.getByText("Available")).toBeTruthy();
@@ -14,7 +14,7 @@ describe("AccountBalance", () => {
 
   it("renders formatted balances from props", () => {
     render(
-      <AccountBalance
+      <AccountBalanceSection
         available_balance={500000}
         pending_balance={25000}
         currency="GBP"
@@ -30,7 +30,7 @@ describe("AccountBalance", () => {
 
   it("renders EUR amounts when currency is EUR", () => {
     render(
-      <AccountBalance
+      <AccountBalanceSection
         available_balance={100000}
         pending_balance={5000}
         currency="EUR"

@@ -12,6 +12,12 @@ export const spacing = (n: number): number => n * SPACING_BASE;
 
 const tintColorLight = "#0a7ea4";
 const tintColorDark = "#fff";
+const tintBackgroundLight = "#E0F2F7";
+const tintBackgroundDark = "rgba(255, 255, 255, 0.15)";
+const positiveAmountLight = "#22c55e";
+const positiveAmountDark = "#4ade80";
+const separatorLight = "rgba(128, 128, 128, 0.2)";
+const separatorDark = "rgba(128, 128, 128, 0.15)";
 
 export const Colors = {
   light: {
@@ -19,13 +25,22 @@ export const Colors = {
     textSecondary: "#687076",
     background: "#fff",
     tint: tintColorLight,
+    tintBackground: tintBackgroundLight,
+    positiveAmount: positiveAmountLight,
     error: "#ffa2a2",
     icon: "#687076",
     tabIconDefault: "#687076",
     tabIconSelected: tintColorLight,
+    separator: separatorLight,
     button: {
-      primary: { background: tintColorLight, text: "#fff" },
-      error: { background: "#ffa2a2", text: "#fff" },
+      primary: {
+        background: tintBackgroundLight,
+        text: tintColorLight,
+      },
+      error: {
+        background: "#ffa2a2",
+        text: "#fff",
+      },
     },
   },
   dark: {
@@ -33,13 +48,22 @@ export const Colors = {
     textSecondary: "#9BA1A6",
     background: "#151718",
     tint: tintColorDark,
+    tintBackground: tintBackgroundDark,
+    positiveAmount: positiveAmountDark,
     error: "#b86b6b",
     icon: "#9BA1A6",
     tabIconDefault: "#9BA1A6",
     tabIconSelected: tintColorDark,
+    separator: separatorDark,
     button: {
-      primary: { background: tintColorDark, text: "#151718" },
-      error: { background: "#b86b6b", text: "#fff" },
+      primary: {
+        background: tintBackgroundDark,
+        text: tintColorDark,
+      },
+      error: {
+        background: "#b86b6b",
+        text: "#fff",
+      },
     },
   },
 };
