@@ -17,6 +17,9 @@ type ButtonProps = PropsWithChildren<{
   variant?: ButtonVariant;
   onPress?: (event: GestureResponderEvent) => void;
   style?: ViewStyle;
+  accessibilityLabel?: string;
+  accessibilityRole?: "button";
+  accessibilityHint?: string;
 }>;
 
 export function Button({
@@ -24,6 +27,9 @@ export function Button({
   variant = "primary",
   onPress,
   style,
+  accessibilityLabel,
+  accessibilityRole = "button",
+  accessibilityHint,
 }: ButtonProps) {
   const theme = useColorScheme() === "dark" ? "dark" : "light";
   const buttonColors = Colors[theme].button[variant];
@@ -32,6 +38,9 @@ export function Button({
     <Pressable
       testID="button"
       onPress={onPress}
+      accessibilityRole={accessibilityRole}
+      accessibilityLabel={accessibilityLabel}
+      accessibilityHint={accessibilityHint}
       style={({ pressed }) => [
         styles.button,
         { backgroundColor: buttonColors.background },

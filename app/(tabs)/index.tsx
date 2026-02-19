@@ -1,7 +1,8 @@
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { AccountBalance } from "@/components/home";
+import { AccountBalanceSection } from "@/components/balance-section";
+import { RecentActivityListSection } from "@/components/recent-activity";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { ErrorView } from "@/components/ui/error-view";
@@ -33,7 +34,7 @@ export default function HomeScreen() {
           edges={["top", "left", "right"]}
         >
           <ErrorView
-            message={error?.message ?? "Failed to load merchant data"}
+            message={error?.message ?? "Unable to load account"}
             onRetry={() => refetch()}
             centered
           />
@@ -49,15 +50,13 @@ export default function HomeScreen() {
           <ThemedText type="title">Business Account</ThemedText>
         </ThemedView>
 
-        <AccountBalance
+        <AccountBalanceSection
           available_balance={data?.available_balance}
           pending_balance={data?.pending_balance}
           currency={data?.currency}
         />
 
-        <ThemedView style={styles.section}>
-          <ThemedText type="subtitle">Recent Activity</ThemedText>
-        </ThemedView>
+        <RecentActivityListSection activities={data?.activity ?? []} />
       </SafeAreaView>
     </ThemedView>
   );
@@ -75,9 +74,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   header: {
-    marginBottom: spacing(3),
-  },
-  section: {
     marginBottom: spacing(3),
   },
 });
