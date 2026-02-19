@@ -1,14 +1,14 @@
 import { StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
+import { ScreenContent } from "@/components/ui/screen-content";
 import { spacing } from "@/constants/theme";
 
 export default function PayoutsScreen() {
   return (
     <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeContent} edges={["top", "left", "right"]}>
+      <ScreenContent style={styles.safeContent}>
         <ThemedView style={styles.header}>
           <ThemedText type="title">Initiate Payout</ThemedText>
         </ThemedView>
@@ -16,7 +16,7 @@ export default function PayoutsScreen() {
         <ThemedView style={styles.section}>
           <ThemedText type="subtitle">Payout Amount</ThemedText>
         </ThemedView>
-      </SafeAreaView>
+      </ScreenContent>
     </ThemedView>
   );
 }

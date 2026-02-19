@@ -6,6 +6,8 @@ import { createQueryClientWrapper } from "@/lib/test-utils";
 import { getPaginatedActivity } from "@/mocks/data";
 import { server } from "@/mocks/server.jest";
 
+import ModalScreen from "./modal";
+
 const mockBack = jest.fn();
 
 jest.mock("expo-router", () => ({
@@ -14,8 +16,6 @@ jest.mock("expo-router", () => ({
 jest.mock("@/hooks/use-color-scheme", () => ({
   useColorScheme: () => "light",
 }));
-
-import ModalScreen from "./modal";
 
 const { wrapper: QueryWrapper, queryClient } = createQueryClientWrapper();
 
@@ -75,10 +75,7 @@ describe("ModalScreen", () => {
   it("shows error view when the API fails", async () => {
     server.use(
       http.get(`${API_BASE_URL}/api/merchant/activity`, () => {
-        return HttpResponse.json(
-          { error: "Network failed" },
-          { status: 500 },
-        );
+        return HttpResponse.json({ error: "Network failed" }, { status: 500 });
       }),
     );
 
@@ -103,8 +100,6 @@ describe("ModalScreen", () => {
 
     renderModal();
 
-    await expect(
-      screen.findByText("No recent activity"),
-    ).resolves.toBeTruthy();
+    await expect(screen.findByText("No recent activity")).resolves.toBeTruthy();
   });
 });

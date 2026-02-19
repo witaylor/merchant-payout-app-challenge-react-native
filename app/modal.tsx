@@ -1,7 +1,6 @@
 import { useRouter } from "expo-router";
 import { useCallback } from "react";
 import { StyleSheet, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 import { RecentActivityModalHeader } from "@/components/recent-activity/recent-activity-modal-header";
 import { RecentActivityModalList } from "@/components/recent-activity/recent-activity-modal-list";
@@ -9,6 +8,7 @@ import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { ErrorView } from "@/components/ui/error-view";
 import { LoadingView } from "@/components/ui/loading-view";
+import { ScreenContent } from "@/components/ui/screen-content";
 import { Colors, spacing } from "@/constants/theme";
 import { useActivity } from "@/hooks/use-activity";
 import { useColorScheme } from "@/hooks/use-color-scheme";
@@ -76,10 +76,10 @@ export default function ModalScreen() {
       accessibilityViewIsModal
       importantForAccessibility="yes"
     >
-      <SafeAreaView style={styles.safeArea} edges={["top", "left", "right"]}>
+      <ScreenContent>
         <RecentActivityModalHeader onDone={handleDone} tintColor={tintColor} />
         {body}
-      </SafeAreaView>
+      </ScreenContent>
     </ThemedView>
   );
 }
@@ -87,13 +87,6 @@ export default function ModalScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  safeArea: {
-    flex: 1,
-    padding: spacing(2),
-    width: "100%",
-    maxWidth: 500,
-    alignSelf: "center",
   },
   emptyContainer: {
     flex: 1,

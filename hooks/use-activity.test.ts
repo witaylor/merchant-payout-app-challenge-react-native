@@ -40,10 +40,9 @@ describe("useActivity", () => {
       timeout: 5000,
     });
 
-    const data = result.current.data!;
-    expect(data.pages).toHaveLength(1);
-    expect(data.pages[0].items.length).toBeGreaterThan(0);
-    expect(data.pages[0].items[0]).toMatchObject({
+    expect(result.current.data!.pages).toHaveLength(1);
+    expect(result.current.activities.length).toBeGreaterThan(0);
+    expect(result.current.activities[0]).toMatchObject({
       id: expect.any(String),
       type: expect.any(String),
       amount: expect.any(Number),

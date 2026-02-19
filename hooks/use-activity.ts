@@ -1,5 +1,6 @@
 import {
   useInfiniteQuery,
+  type InfiniteData,
   type UseInfiniteQueryResult,
 } from "@tanstack/react-query";
 
@@ -12,10 +13,15 @@ const activityKeys = {
 
 const ACTIVITY_PAGE_LIMIT = 15;
 
-export function useActivity(): UseInfiniteQueryResult<
+export type UseActivityResult = UseInfiniteQueryResult<
   PaginatedActivityResponse,
   Error
-> & { activities: ActivityItem[] } {
+> & {
+  data: InfiniteData<PaginatedActivityResponse> | undefined;
+  activities: ActivityItem[];
+};
+
+export function useActivity(): UseActivityResult {
   const result = useInfiniteQuery({
     queryKey: activityKeys.all,
     queryFn: ({ pageParam }) =>
@@ -29,5 +35,5 @@ export function useActivity(): UseInfiniteQueryResult<
 
   const activities = result.data?.pages.flatMap((page) => page.items) ?? [];
 
-  return { ...result, activities };
+  return { ...result, activities } as unknown as UseActivityResult;
 }
