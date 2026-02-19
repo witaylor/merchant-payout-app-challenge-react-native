@@ -2,7 +2,6 @@ import { fireEvent, render, screen } from "@testing-library/react-native";
 
 import { RecentActivityList } from "./recent-activity-list";
 
-jest.mock("@shopify/flash-list");
 jest.mock("@/hooks/use-color-scheme");
 
 const mockActivity = [
@@ -63,10 +62,7 @@ describe("RecentActivityList", () => {
   it("calls onShowMore when Show more is pressed", () => {
     const onShowMore = jest.fn();
     render(
-      <RecentActivityList
-        activities={mockActivity}
-        onShowMore={onShowMore}
-      />,
+      <RecentActivityList activities={mockActivity} onShowMore={onShowMore} />,
     );
 
     fireEvent.press(screen.getByText("Show more"));

@@ -2,8 +2,6 @@ import { render, screen } from "@testing-library/react-native";
 
 import { RecentActivityListSection } from "./recent-activity-list-section";
 
-jest.mock("@shopify/flash-list");
-
 const mockActivities = [
   {
     id: "act_001",
