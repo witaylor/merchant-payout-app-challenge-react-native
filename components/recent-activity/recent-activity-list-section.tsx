@@ -27,6 +27,7 @@ export function RecentActivityListSection({
 const styles = StyleSheet.create({
   section: {
     marginBottom: spacing(3),
+    flex: 1,
   },
   title: {
     marginBottom: spacing(1),

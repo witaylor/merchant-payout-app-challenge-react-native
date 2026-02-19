@@ -51,10 +51,7 @@ export function RecentActivityList({
   const ItemSeparatorComponent = useCallback(
     () => (
       <View
-        style={[
-          styles.separator,
-          { backgroundColor: Colors[theme].separator },
-        ]}
+        style={[styles.separator, { backgroundColor: Colors[theme].separator }]}
       />
     ),
     [theme],
@@ -84,6 +81,7 @@ export function RecentActivityList({
         keyExtractor={(item) => item.id}
         ItemSeparatorComponent={ItemSeparatorComponent}
         ListFooterComponent={ListFooterComponent}
+        showsVerticalScrollIndicator={false}
       />
     </View>
   );
@@ -91,7 +89,7 @@ export function RecentActivityList({
 
 const styles = StyleSheet.create({
   listContainer: {
-    minHeight: 100,
+    flex: 1,
   },
   separator: {
     height: 1,
