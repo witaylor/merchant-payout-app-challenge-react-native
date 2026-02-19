@@ -81,7 +81,6 @@ export function RecentActivityList({
         keyExtractor={(item) => item.id}
         ItemSeparatorComponent={ItemSeparatorComponent}
         ListFooterComponent={ListFooterComponent}
-        showsVerticalScrollIndicator={false}
       />
     </View>
   );
