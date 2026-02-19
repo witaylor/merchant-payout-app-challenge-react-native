@@ -2,32 +2,7 @@ import { render, screen } from "@testing-library/react-native";
 
 import { RecentActivityListSection } from "./recent-activity-list-section";
 
-/* eslint-disable @typescript-eslint/no-require-imports */
-jest.mock("@shopify/flash-list", () => {
-  const React = require("react");
-  const { View } = require("react-native");
-  return {
-    FlashList: ({
-      data,
-      renderItem,
-      ListFooterComponent,
-    }: {
-      data: unknown[];
-      renderItem: (info: { item: unknown }) => React.ReactElement;
-      ListFooterComponent?: React.ComponentType;
-    }) => (
-      <View testID="flash-list">
-        {data.map((item, index) => (
-          <View key={(item as { id: string }).id ?? index}>
-            {renderItem({ item })}
-          </View>
-        ))}
-        {ListFooterComponent ? <ListFooterComponent /> : null}
-      </View>
-    ),
-  };
-});
-/* eslint-enable @typescript-eslint/no-require-imports */
+jest.mock("@shopify/flash-list");
 
 const mockActivities = [
   {

@@ -2,9 +2,7 @@ import { render, screen } from "@testing-library/react-native";
 
 import { CompactRecentActivityListItem } from "./compact-recent-activity-list-item";
 
-jest.mock("@/hooks/use-color-scheme", () => ({
-  useColorScheme: () => "light" as const,
-}));
+jest.mock("@/hooks/use-color-scheme");
 
 describe("CompactRecentActivityListItem", () => {
   it("renders description and amount", () => {

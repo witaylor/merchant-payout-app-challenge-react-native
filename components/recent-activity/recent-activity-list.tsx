@@ -32,7 +32,7 @@ export function RecentActivityList({
     if (onShowMore) {
       onShowMore();
     } else {
-      router.push("/activity-modal" as never);
+      router.push("/modal" as never);
     }
   }, [onShowMore, router]);
 

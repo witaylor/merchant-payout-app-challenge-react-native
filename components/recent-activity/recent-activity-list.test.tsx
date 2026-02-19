@@ -2,36 +2,8 @@ import { fireEvent, render, screen } from "@testing-library/react-native";
 
 import { RecentActivityList } from "./recent-activity-list";
 
-/* eslint-disable @typescript-eslint/no-require-imports */
-jest.mock("@shopify/flash-list", () => {
-  const React = require("react");
-  const { View } = require("react-native");
-  return {
-    FlashList: ({
-      data,
-      renderItem,
-      ListFooterComponent,
-    }: {
-      data: unknown[];
-      renderItem: (info: { item: unknown }) => React.ReactElement;
-      ListFooterComponent?: React.ComponentType;
-    }) => (
-      <View testID="flash-list">
-        {data.map((item, index) => (
-          <View key={(item as { id: string }).id ?? index} testID="list-item">
-            {renderItem({ item })}
-          </View>
-        ))}
-        {ListFooterComponent ? <ListFooterComponent /> : null}
-      </View>
-    ),
-  };
-});
-/* eslint-enable @typescript-eslint/no-require-imports */
-
-jest.mock("@/hooks/use-color-scheme", () => ({
-  useColorScheme: () => "light" as const,
-}));
+jest.mock("@shopify/flash-list");
+jest.mock("@/hooks/use-color-scheme");
 
 const mockActivity = [
   {
