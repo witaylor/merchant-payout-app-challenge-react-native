@@ -1,0 +1,16 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/willtaylor/Developer/merchant-payout-app-challenge-react-native/modules/screen-security/android/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7669365785317150562.xml:2:13-83
+INJECTED from /Users/willtaylor/Developer/merchant-payout-app-challenge-react-native/modules/screen-security/android/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7669365785317150562.xml:2:13-83
+	package
+		INJECTED from /Users/willtaylor/Developer/merchant-payout-app-challenge-react-native/modules/screen-security/android/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7669365785317150562.xml
+	xmlns:android
+		ADDED from /Users/willtaylor/Developer/merchant-payout-app-challenge-react-native/modules/screen-security/android/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7669365785317150562.xml:2:23-81
+uses-sdk
+INJECTED from /Users/willtaylor/Developer/merchant-payout-app-challenge-react-native/modules/screen-security/android/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7669365785317150562.xml reason: use-sdk injection requested
+INJECTED from /Users/willtaylor/Developer/merchant-payout-app-challenge-react-native/modules/screen-security/android/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7669365785317150562.xml
+INJECTED from /Users/willtaylor/Developer/merchant-payout-app-challenge-react-native/modules/screen-security/android/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7669365785317150562.xml
+	android:targetSdkVersion
+		INJECTED from /Users/willtaylor/Developer/merchant-payout-app-challenge-react-native/modules/screen-security/android/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7669365785317150562.xml
+	android:minSdkVersion
+		INJECTED from /Users/willtaylor/Developer/merchant-payout-app-challenge-react-native/modules/screen-security/android/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest7669365785317150562.xml
