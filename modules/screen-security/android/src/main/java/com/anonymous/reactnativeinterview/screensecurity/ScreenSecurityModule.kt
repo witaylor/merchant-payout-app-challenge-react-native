@@ -4,7 +4,6 @@ import android.provider.Settings
 import expo.modules.kotlin.exception.Exceptions
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
-import java.util.UUID
 
 class ScreenSecurityModule : Module() {
   private val context
@@ -14,11 +13,10 @@ class ScreenSecurityModule : Module() {
     Name("ScreenSecurity")
 
     Function("getDeviceId") {
-      val id = Settings.Secure.getString(
+      Settings.Secure.getString(
         context.contentResolver,
         Settings.Secure.ANDROID_ID,
       )
-      id ?: UUID.randomUUID().toString()
     }
   }
 }

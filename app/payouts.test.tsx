@@ -4,6 +4,7 @@ import { http, HttpResponse } from "msw";
 import { API_BASE_URL } from "@/constants";
 import { createQueryClientWrapper } from "@/lib/test-utils";
 import { server } from "@/mocks/server.jest";
+import type { CreatePayoutRequest } from "@/types/api";
 
 import PayoutsScreen from "./(tabs)/payouts";
 
@@ -11,6 +12,11 @@ const { wrapper, queryClient } = createQueryClientWrapper();
 
 jest.mock("@/hooks/use-color-scheme", () => ({
   useColorScheme: () => "light",
+}));
+
+const mockGetDeviceId = jest.fn(() => "test-device-id-123");
+jest.mock("screen-security", () => ({
+  getDeviceId: () => mockGetDeviceId(),
 }));
 
 describe("PayoutsScreen", () => {
@@ -67,6 +73,92 @@ describe("PayoutsScreen", () => {
       expect(screen.getByText(/Your payout of £400.00 has been processed/)).toBeTruthy();
       expect(screen.getByText("Create Another Payout")).toBeTruthy();
     });
+  });
+
+  it("includes device_id in payout request when getDeviceId returns a value", async () => {
+    let capturedBody: CreatePayoutRequest | null = null;
+    server.use(
+      http.post(`${API_BASE_URL}/api/payouts`, async ({ request }) => {
+        capturedBody = (await request.json()) as CreatePayoutRequest;
+        return HttpResponse.json(
+          {
+            id: "payout_test",
+            status: "completed",
+            amount: 40000,
+            currency: "GBP",
+            iban: "FR12123451234512345678901234567890",
+            created_at: new Date().toISOString(),
+          },
+          { status: 201 }
+        );
+      })
+    );
+
+    render(<PayoutsScreen />, { wrapper });
+
+    fireEvent.changeText(screen.getByPlaceholderText("0.00"), "400");
+    fireEvent.changeText(
+      screen.getByPlaceholderText(/FR12/),
+      "FR12123451234512345678901234567890"
+    );
+    fireEvent.press(screen.getByText("Confirm"));
+
+    await waitFor(() => expect(screen.getByText("Confirm Payout")).toBeTruthy());
+
+    fireEvent.press(screen.getByLabelText("Confirm payout"));
+
+    await waitFor(() => expect(screen.getByText("Payout Completed")).toBeTruthy());
+
+    expect(capturedBody).toMatchObject({
+      amount: 40000,
+      currency: "GBP",
+      iban: "FR12123451234512345678901234567890",
+      device_id: "test-device-id-123",
+    });
+  });
+
+  it("omits device_id from payout request when getDeviceId returns null", async () => {
+    mockGetDeviceId.mockReturnValueOnce(null);
+
+    let capturedBody: CreatePayoutRequest | null = null;
+    server.use(
+      http.post(`${API_BASE_URL}/api/payouts`, async ({ request }) => {
+        capturedBody = (await request.json()) as CreatePayoutRequest;
+        return HttpResponse.json(
+          {
+            id: "payout_test",
+            status: "completed",
+            amount: 40000,
+            currency: "GBP",
+            iban: "FR12123451234512345678901234567890",
+            created_at: new Date().toISOString(),
+          },
+          { status: 201 }
+        );
+      })
+    );
+
+    render(<PayoutsScreen />, { wrapper });
+
+    fireEvent.changeText(screen.getByPlaceholderText("0.00"), "400");
+    fireEvent.changeText(
+      screen.getByPlaceholderText(/FR12/),
+      "FR12123451234512345678901234567890"
+    );
+    fireEvent.press(screen.getByText("Confirm"));
+
+    await waitFor(() => expect(screen.getByText("Confirm Payout")).toBeTruthy());
+
+    fireEvent.press(screen.getByLabelText("Confirm payout"));
+
+    await waitFor(() => expect(screen.getByText("Payout Completed")).toBeTruthy());
+
+    expect(capturedBody).toMatchObject({
+      amount: 40000,
+      currency: "GBP",
+      iban: "FR12123451234512345678901234567890",
+    });
+    expect(capturedBody).not.toHaveProperty("device_id");
   });
 
   it("shows error view with message on insufficient funds from API", async () => {

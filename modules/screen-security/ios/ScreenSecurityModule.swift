@@ -6,7 +6,7 @@ public class ScreenSecurityModule: Module {
     Name("ScreenSecurity")
 
     Function("getDeviceId") {
-      return UIDevice.current.identifierForVendor?.uuidString ?? ""
+      return UIDevice.current.identifierForVendor?.uuidString
     }
   }
 }

@@ -33,7 +33,10 @@ export function ConfirmPayoutModal({
   const theme = useColorScheme() ?? "light";
   const colors = Colors[theme];
 
-  const formattedAmount = formatPayoutAmountForDisplay(data.amount, data.currency);
+  const formattedAmount = formatPayoutAmountForDisplay(
+    data.amount,
+    data.currency,
+  );
   const maskedIban = maskIban(data.iban);
 
   return (
@@ -45,17 +48,18 @@ export function ConfirmPayoutModal({
       accessibilityViewIsModal
       accessibilityLabel="Confirm Payout"
     >
-      <Pressable
-        style={styles.overlay}
-        onPress={isSubmitting ? undefined : onCancel}
-        accessibilityRole="button"
-        accessibilityLabel={
-          isSubmitting
-            ? "Processing payout, please wait"
-            : "Dismiss confirmation dialog"
-        }
-      >
-        <Pressable style={styles.cardWrapper} onPress={(e) => e.stopPropagation()}>
+      <View style={styles.container}>
+        <Pressable
+          style={[StyleSheet.absoluteFillObject, styles.overlay]}
+          onPress={isSubmitting ? undefined : onCancel}
+          accessibilityRole="button"
+          accessibilityLabel={
+            isSubmitting
+              ? "Processing payout, please wait"
+              : "Dismiss confirmation dialog"
+          }
+        />
+        <View style={styles.cardWrapper}>
           <View
             style={[
               styles.card,
@@ -145,11 +149,7 @@ export function ConfirmPayoutModal({
                     isSubmitting ? "Processing payout" : "Confirm payout"
                   }
                 >
-                  {isSubmitting ? (
-                    "Processing…"
-                  ) : (
-                    "Confirm"
-                  )}
+                  {isSubmitting ? "Processing…" : "Confirm"}
                 </Button>
                 {isSubmitting && (
                   <View
@@ -169,19 +169,21 @@ export function ConfirmPayoutModal({
               </View>
             </View>
           </View>
-        </Pressable>
-      </Pressable>
+        </View>
+      </View>
     </Modal>
   );
 }
 
 const styles = StyleSheet.create({
-  overlay: {
+  container: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.5)",
     justifyContent: "center",
     alignItems: "center",
     padding: spacing(3),
+  },
+  overlay: {
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   cardWrapper: {
     width: "100%",
