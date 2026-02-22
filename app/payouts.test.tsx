@@ -14,7 +14,7 @@ jest.mock("@/hooks/use-color-scheme", () => ({
   useColorScheme: () => "light",
 }));
 
-const mockGetDeviceId = jest.fn(() => "test-device-id-123");
+const mockGetDeviceId = jest.fn((): string | null => "test-device-id-123");
 jest.mock("screen-security", () => ({
   getDeviceId: () => mockGetDeviceId(),
 }));
