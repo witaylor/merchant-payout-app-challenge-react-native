@@ -74,17 +74,22 @@ export function RecentActivityList({
   }
 
   return (
-    <FlashList
-      data={recentItems}
-      renderItem={renderItem}
-      keyExtractor={(item) => item.id}
-      ItemSeparatorComponent={ItemSeparatorComponent}
-      ListFooterComponent={ListFooterComponent}
-    />
+    <View style={styles.listContainer}>
+      <FlashList
+        data={recentItems}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+        ItemSeparatorComponent={ItemSeparatorComponent}
+        ListFooterComponent={ListFooterComponent}
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  listContainer: {
+    flex: 1,
+  },
   separator: {
     height: 1,
     marginHorizontal: 0,

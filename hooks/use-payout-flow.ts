@@ -39,10 +39,7 @@ export function usePayoutFlow() {
     // Client-side balance check. When payout currency matches account currency we
     // compare directly. When it differs (e.g. EUR payout from GBP account), we use
     // a 1:1 minor-units heuristic since we don't have exchange rates client-side.
-    if (
-      merchant &&
-      amountInMinorUnits > merchant.available_balance
-    ) {
+    if (merchant && amountInMinorUnits > merchant.available_balance) {
       setErrorMessage(INSUFFICIENT_FUNDS_MESSAGE);
       setScreenState("failed");
       return;

@@ -1,5 +1,5 @@
-import { StyleSheet, View } from "react-native";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { StyleSheet, View } from "react-native";
 
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
@@ -32,7 +32,13 @@ export function PayoutResultView(props: PayoutResultViewProps) {
     );
   }
 
-  return <PayoutErrorView message={props.message} onTryAgain={props.onTryAgain} colors={colors} />;
+  return (
+    <PayoutErrorView
+      message={props.message}
+      onTryAgain={props.onTryAgain}
+      colors={colors}
+    />
+  );
 }
 
 function PayoutSuccessView({
@@ -54,11 +60,7 @@ function PayoutSuccessView({
       >
         <MaterialIcons name="check" size={48} color="#fff" />
       </View>
-      <ThemedText
-        type="title"
-        style={styles.title}
-        accessibilityRole="header"
-      >
+      <ThemedText type="title" style={styles.title} accessibilityRole="header">
         Payout Completed
       </ThemedText>
       <ThemedText
@@ -84,9 +86,8 @@ function PayoutErrorView({
 }: {
   message: string;
   onTryAgain: () => void;
-  colors: ReturnType<typeof Colors.light>;
+  colors: typeof Colors.light;
 }) {
-
   return (
     <ThemedView style={styles.container}>
       <View
@@ -109,10 +110,7 @@ function PayoutErrorView({
       >
         {message}
       </ThemedText>
-      <Button
-        onPress={onTryAgain}
-        accessibilityLabel="Try again"
-      >
+      <Button onPress={onTryAgain} accessibilityLabel="Try again">
         Try Again
       </Button>
     </ThemedView>

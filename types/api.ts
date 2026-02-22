@@ -2,13 +2,14 @@
  * API Type Definitions
  */
 
-export type PayoutStatus = 'pending' | 'processing' | 'completed' | 'failed';
+import type { Currency } from "@/constants/currencies";
 
-export type { Currency } from "@/constants/currencies";
+export type { Currency };
+export type PayoutStatus = "pending" | "processing" | "completed" | "failed";
 
-export type ActivityType = 'payout' | 'deposit' | 'refund' | 'fee';
+export type ActivityType = "payout" | "deposit" | "refund" | "fee";
 
-export type ActivityStatus = 'completed' | 'pending' | 'processing' | 'failed';
+export type ActivityStatus = "completed" | "pending" | "processing" | "failed";
 
 export interface BalanceResponse {
   available_balance: number; // in lowest denomination of the currency
