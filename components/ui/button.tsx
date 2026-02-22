@@ -1,3 +1,4 @@
+import { forwardRef } from "react";
 import {
   Pressable,
   StyleSheet,
@@ -9,12 +10,13 @@ import { ThemedText } from "@/components/themed-text";
 import { Colors, spacing } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 
-import type { PropsWithChildren } from "react";
+import type { ComponentRef, PropsWithChildren } from "react";
 
-type ButtonVariant = "primary" | "error";
+type ButtonVariant = "primary" | "secondary" | "error" | "tint";
 
 type ButtonProps = PropsWithChildren<{
   variant?: ButtonVariant;
+  disabled?: boolean;
   onPress?: (event: GestureResponderEvent) => void;
   style?: ViewStyle;
   accessibilityLabel?: string;
@@ -22,29 +24,38 @@ type ButtonProps = PropsWithChildren<{
   accessibilityHint?: string;
 }>;
 
-export function Button({
-  children,
-  variant = "primary",
-  onPress,
-  style,
-  accessibilityLabel,
-  accessibilityRole = "button",
-  accessibilityHint,
-}: ButtonProps) {
-  const theme = useColorScheme() === "dark" ? "dark" : "light";
-  const buttonColors = Colors[theme].button[variant];
+export const Button = forwardRef<ComponentRef<typeof Pressable>, ButtonProps>(
+  function Button(
+    {
+      children,
+      variant = "primary",
+      disabled = false,
+      onPress,
+      style,
+      accessibilityLabel,
+      accessibilityRole = "button",
+      accessibilityHint,
+    },
+    ref,
+  ) {
+    const theme = useColorScheme() === "dark" ? "dark" : "light";
+    const buttonColors = Colors[theme].button[variant];
 
-  return (
-    <Pressable
-      testID="button"
-      onPress={onPress}
+    return (
+      <Pressable
+        ref={ref}
+        testID="button"
+      disabled={disabled}
+      onPress={disabled ? undefined : onPress}
       accessibilityRole={accessibilityRole}
       accessibilityLabel={accessibilityLabel}
       accessibilityHint={accessibilityHint}
+      accessibilityState={{ disabled }}
       style={({ pressed }) => [
         styles.button,
         { backgroundColor: buttonColors.background },
-        pressed && styles.pressed,
+        disabled && styles.disabled,
+        pressed && !disabled && styles.pressed,
         style,
       ]}
     >
@@ -57,7 +68,8 @@ export function Button({
       </ThemedText>
     </Pressable>
   );
-}
+},
+);
 
 const styles = StyleSheet.create({
   button: {
@@ -70,5 +82,8 @@ const styles = StyleSheet.create({
   },
   pressed: {
     opacity: 0.8,
+  },
+  disabled: {
+    opacity: 0.5,
   },
 });

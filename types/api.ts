@@ -4,7 +4,7 @@
 
 export type PayoutStatus = 'pending' | 'processing' | 'completed' | 'failed';
 
-export type Currency = 'GBP' | 'EUR';
+export type { Currency } from "@/constants/currencies";
 
 export type ActivityType = 'payout' | 'deposit' | 'refund' | 'fee';
 

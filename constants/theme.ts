@@ -28,6 +28,8 @@ export const Colors = {
     tintBackground: tintBackgroundLight,
     positiveAmount: positiveAmountLight,
     error: "#ffa2a2",
+    inputBackground: "#f1f3f4",
+    surface: "#fff",
     icon: "#687076",
     tabIconDefault: "#687076",
     tabIconSelected: tintColorLight,
@@ -37,9 +39,17 @@ export const Colors = {
         background: tintBackgroundLight,
         text: tintColorLight,
       },
+      tint: {
+        background: tintColorLight,
+        text: "#fff",
+      },
       error: {
         background: "#ffa2a2",
         text: "#fff",
+      },
+      secondary: {
+        background: "#e8eaed",
+        text: "#11181C",
       },
     },
   },
@@ -51,6 +61,8 @@ export const Colors = {
     tintBackground: tintBackgroundDark,
     positiveAmount: positiveAmountDark,
     error: "#b86b6b",
+    inputBackground: "#1f2326",
+    surface: "#252a2e",
     icon: "#9BA1A6",
     tabIconDefault: "#9BA1A6",
     tabIconSelected: tintColorDark,
@@ -60,9 +72,17 @@ export const Colors = {
         background: tintBackgroundDark,
         text: tintColorDark,
       },
+      tint: {
+        background: tintColorDark,
+        text: "#11181C",
+      },
       error: {
         background: "#b86b6b",
         text: "#fff",
+      },
+      secondary: {
+        background: "#2d3236",
+        text: "#ECEDEE",
       },
     },
   },

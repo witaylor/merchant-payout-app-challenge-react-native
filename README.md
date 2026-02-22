@@ -59,8 +59,16 @@ The types for the API responses are configured in `types/api.ts`.
 
 The mock API supports specific triggers to test your error handling:
 
+* **Internal Server Error**: `POST /api/payouts` with an amount of `777.77` (77777 pence) returns a `500 Internal Server Error`.
 * **Service Unavailable**: `POST /api/payouts` with an amount of `999.99` (99999 pence) returns a `503 Service Unavailable`.
 * **Insufficient Funds**: `POST /api/payouts` with an amount of `888.88` (88888 pence) returns a `400 Bad Request`.
+
+#### How to Test the Payout Error Screen Manually
+
+1. **Insufficient funds (API)**: Enter **888.88** as the amount and complete the flow. The mock API returns 400 and the error view appears with "Unable to Process Payout" and "Insufficient funds."
+2. **Insufficient funds (client-side)**: With the default mock balance of £5,000.00, enter any amount **greater than 5000** (e.g. **5001** or **6000**) and confirm. The app shows the error before calling the API.
+3. **Service unavailable**: Enter **999.99** as the amount and complete the flow. The mock returns 503 and the error view shows "Service temporarily unavailable."
+4. **Internal server error (500)**: Enter **777.77** as the amount and complete the flow. The mock returns 500 and the error view shows "Internal Server Error" (or the message from the API).
 
 ## 📝 Evaluation Criteria
 
