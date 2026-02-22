@@ -1,0 +1,11 @@
+{
+  "name": "screen-security",
+  "version": "1.0.0",
+  "description": "ScreenSecurity native module for device ID and security features",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {},
+  "peerDependencies": {
+    "expo": "*"
+  }
+}

@@ -1,4 +1,5 @@
 import { useCallback, useState } from "react";
+import { getDeviceId } from "screen-security";
 
 import type { PayoutFormData } from "@/components/payout/payout-form";
 import { DEFAULT_CURRENCY } from "@/constants/currencies";
@@ -46,10 +47,12 @@ export function usePayoutFlow() {
     }
 
     try {
+      const deviceId = getDeviceId();
       await mutation.mutateAsync({
         amount: amountInMinorUnits,
         currency: formData.currency,
         iban: ibanClean,
+        ...(deviceId && { device_id: deviceId }),
       });
       setScreenState("success");
     } catch (err) {
