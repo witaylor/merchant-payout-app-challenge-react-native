@@ -28,4 +28,17 @@ describe("Button", () => {
       backgroundColor: Colors.light.button.error.background,
     });
   });
+
+  it("does not call onPress when disabled", () => {
+    const onPress = jest.fn();
+    render(
+      <Button disabled onPress={onPress}>
+        Submit
+      </Button>
+    );
+
+    fireEvent.press(screen.getByText("Submit"));
+
+    expect(onPress).not.toHaveBeenCalled();
+  });
 });

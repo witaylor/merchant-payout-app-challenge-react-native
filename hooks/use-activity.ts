@@ -5,11 +5,8 @@ import {
 } from "@tanstack/react-query";
 
 import { fetchActivity } from "@/api/merchant";
+import { queryKeys } from "@/lib/query-keys";
 import type { ActivityItem, PaginatedActivityResponse } from "@/types/api";
-
-const activityKeys = {
-  all: ["activity"] as const,
-};
 
 const ACTIVITY_PAGE_LIMIT = 15;
 
@@ -23,7 +20,7 @@ export type UseActivityResult = UseInfiniteQueryResult<
 
 export function useActivity(): UseActivityResult {
   const result = useInfiniteQuery({
-    queryKey: activityKeys.all,
+    queryKey: queryKeys.activity,
     queryFn: ({ pageParam }) =>
       fetchActivity(pageParam ?? undefined, ACTIVITY_PAGE_LIMIT),
     initialPageParam: undefined as string | undefined,

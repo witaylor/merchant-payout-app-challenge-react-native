@@ -5,11 +5,8 @@ import {
 } from "@tanstack/react-query";
 
 import { fetchMerchant } from "@/api/merchant";
+import { queryKeys } from "@/lib/query-keys";
 import type { MerchantDataResponse } from "@/types/api";
-
-const merchantKeys = {
-  all: ["merchant"] as const,
-};
 
 export type UseMerchantOptions = Omit<
   UseQueryOptions<MerchantDataResponse, Error>,
@@ -20,7 +17,7 @@ export function useMerchant(
   options?: UseMerchantOptions,
 ): UseQueryResult<MerchantDataResponse, Error> {
   return useQuery({
-    queryKey: merchantKeys.all,
+    queryKey: queryKeys.merchant,
     queryFn: fetchMerchant,
     staleTime: 60_000,
     gcTime: 5 * 60_000,

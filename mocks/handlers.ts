@@ -129,6 +129,13 @@ export const handlers = [
     const body = (await request.json()) as CreatePayoutRequest;
     const { amount, currency, iban } = body;
 
+    // Internal Server Error: amount === 77777 (777.77 in pence) returns 500
+    if (amount === 77777) {
+      const errorResponse = { error: "Internal Server Error" };
+      logRequest("POST", request.url, 500, errorResponse, body);
+      return HttpResponse.json(errorResponse, { status: 500 });
+    }
+
     // Service Unavailable: amount === 99999 (999.99 in pence) returns 503
     if (amount === 99999) {
       const errorResponse = { error: "Service temporarily unavailable" };

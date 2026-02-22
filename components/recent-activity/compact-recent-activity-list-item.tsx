@@ -2,6 +2,7 @@ import { memo } from "react";
 import { StyleSheet, View } from "react-native";
 
 import { ThemedText } from "@/components/themed-text";
+import { CURRENCIES } from "@/constants/currencies";
 import { Colors, spacing } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import type { ActivityItem } from "@/types/api";
@@ -11,8 +12,6 @@ export interface CompactRecentActivityListItemProps {
   item: ActivityItem;
 }
 
-const VALID_CURRENCIES = ["GBP", "EUR"] as const;
-
 function isValidItem(item: unknown): item is ActivityItem {
   if (!item || typeof item !== "object") return false;
   const a = item as Record<string, unknown>;
@@ -21,7 +20,7 @@ function isValidItem(item: unknown): item is ActivityItem {
     typeof a.amount === "number" &&
     !Number.isNaN(a.amount) &&
     typeof a.currency === "string" &&
-    VALID_CURRENCIES.includes(a.currency as "GBP" | "EUR") &&
+    CURRENCIES.includes(a.currency as (typeof CURRENCIES)[number]) &&
     typeof a.description === "string"
   );
 }
