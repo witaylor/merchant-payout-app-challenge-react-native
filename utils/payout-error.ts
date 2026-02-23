@@ -1,5 +1,14 @@
 export const INSUFFICIENT_FUNDS_MESSAGE = "Insufficient funds.";
 
+export const BIOMETRIC_NOT_AVAILABLE_MESSAGE =
+  "Please set up biometric authentication in your device settings to complete payouts over £1,000.";
+
+export const BIOMETRIC_CANCELLED_MESSAGE =
+  "Biometric authentication was cancelled.";
+
+export const WEB_PAYOUT_LIMIT_MESSAGE =
+  "Payouts over £1,000 are only available in the mobile app.";
+
 const NETWORK_ERROR_PATTERNS = [
   "failed to fetch",
   "network request failed",

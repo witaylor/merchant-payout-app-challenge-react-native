@@ -11,6 +11,7 @@ dist/
 web-build/
 
 # Native
+modules/screen-security/android/build/
 *.orig.*
 *.jks
 *.p8
