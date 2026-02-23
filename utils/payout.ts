@@ -1,6 +1,9 @@
 import type { Currency } from "@/types/api";
 import { formatAmount } from "@/utils/format";
 
+/** Payout amount threshold (in major units) above which biometric auth is required. */
+export const BIOMETRIC_THRESHOLD_MAJOR_UNITS = 1000;
+
 /**
  * Converts amount from major units (pounds/euros) to minor units (pence/cents).
  * Currency-agnostic: both GBP and EUR use 100 minor units per major unit.

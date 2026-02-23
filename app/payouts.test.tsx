@@ -1,5 +1,6 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react-native";
 import { http, HttpResponse } from "msw";
+import { Platform } from "react-native";
 
 import { API_BASE_URL } from "@/constants";
 import { createQueryClientWrapper } from "@/lib/test-utils";
@@ -15,8 +16,10 @@ jest.mock("@/hooks/use-color-scheme", () => ({
 }));
 
 const mockGetDeviceId = jest.fn((): string | null => "test-device-id-123");
+const mockIsBiometricAuthenticated = jest.fn(() => Promise.resolve(true));
 jest.mock("screen-security", () => ({
   getDeviceId: () => mockGetDeviceId(),
+  isBiometricAuthenticated: () => mockIsBiometricAuthenticated(),
 }));
 
 describe("PayoutsScreen", () => {
@@ -244,6 +247,189 @@ describe("PayoutsScreen", () => {
     await waitFor(() => {
       expect(screen.getByText("Unable to Process Payout")).toBeTruthy();
       expect(screen.getByText("Insufficient funds.")).toBeTruthy();
+      expect(screen.getByText("Try Again")).toBeTruthy();
+    });
+  });
+
+  it("proceeds without biometric when payout is £1,000 or less", async () => {
+    mockIsBiometricAuthenticated.mockClear();
+    queryClient.clear();
+
+    server.use(
+      http.get(`${API_BASE_URL}/api/merchant`, () =>
+        HttpResponse.json({
+          available_balance: 500000,
+          pending_balance: 25000,
+          currency: "GBP",
+          activity: [],
+        })
+      )
+    );
+
+    render(<PayoutsScreen />, { wrapper });
+
+    await waitFor(() => expect(screen.getByText("Confirm")).toBeTruthy());
+
+    fireEvent.changeText(screen.getByPlaceholderText("0.00"), "1000");
+    fireEvent.changeText(
+      screen.getByPlaceholderText(/FR12/),
+      "FR12123451234512345678901234567890"
+    );
+    fireEvent.press(screen.getByText("Confirm"));
+
+    await waitFor(() => expect(screen.getByText("Confirm Payout")).toBeTruthy());
+
+    fireEvent.press(screen.getByLabelText("Confirm payout"));
+
+    await waitFor(() => expect(screen.getByText("Payout Completed")).toBeTruthy());
+
+    expect(mockIsBiometricAuthenticated).not.toHaveBeenCalled();
+  });
+
+  it("proceeds with payout over £1,000 when biometric authenticates successfully", async () => {
+    mockIsBiometricAuthenticated.mockResolvedValueOnce(true);
+    queryClient.clear();
+
+    server.use(
+      http.get(`${API_BASE_URL}/api/merchant`, () =>
+        HttpResponse.json({
+          available_balance: 500000,
+          pending_balance: 25000,
+          currency: "GBP",
+          activity: [],
+        })
+      )
+    );
+
+    render(<PayoutsScreen />, { wrapper });
+
+    await waitFor(() => expect(screen.getByText("Confirm")).toBeTruthy());
+
+    fireEvent.changeText(screen.getByPlaceholderText("0.00"), "1500");
+    fireEvent.changeText(
+      screen.getByPlaceholderText(/FR12/),
+      "FR12123451234512345678901234567890"
+    );
+    fireEvent.press(screen.getByText("Confirm"));
+
+    await waitFor(() => expect(screen.getByText("Confirm Payout")).toBeTruthy());
+
+    fireEvent.press(screen.getByLabelText("Confirm payout"));
+
+    await waitFor(() => expect(screen.getByText("Payout Completed")).toBeTruthy());
+
+    expect(mockIsBiometricAuthenticated).toHaveBeenCalled();
+  });
+
+  it("shows error view when user cancels or fails biometric for payout over £1,000", async () => {
+    mockIsBiometricAuthenticated.mockResolvedValueOnce(false);
+    queryClient.clear();
+
+    server.use(
+      http.get(`${API_BASE_URL}/api/merchant`, () =>
+        HttpResponse.json({
+          available_balance: 500000,
+          pending_balance: 25000,
+          currency: "GBP",
+          activity: [],
+        })
+      )
+    );
+
+    render(<PayoutsScreen />, { wrapper });
+
+    await waitFor(() => expect(screen.getByText("Confirm")).toBeTruthy());
+
+    fireEvent.changeText(screen.getByPlaceholderText("0.00"), "1500");
+    fireEvent.changeText(
+      screen.getByPlaceholderText(/FR12/),
+      "FR12123451234512345678901234567890"
+    );
+    fireEvent.press(screen.getByText("Confirm"));
+
+    await waitFor(() => expect(screen.getByText("Confirm Payout")).toBeTruthy());
+
+    fireEvent.press(screen.getByLabelText("Confirm payout"));
+
+    await waitFor(() => {
+      expect(screen.getByText("Unable to Process Payout")).toBeTruthy();
+      expect(screen.getByText("Biometric authentication was cancelled.")).toBeTruthy();
+      expect(screen.getByText("Try Again")).toBeTruthy();
+    });
+  });
+
+  it("blocks payouts over £1,000 on web with appropriate message", async () => {
+    const originalOS = Platform.OS;
+    (Platform as { OS: string }).OS = "web";
+
+    try {
+      render(<PayoutsScreen />, { wrapper });
+
+      await waitFor(() => expect(screen.getByText("Confirm")).toBeTruthy());
+
+      fireEvent.changeText(screen.getByPlaceholderText("0.00"), "1500");
+      fireEvent.changeText(
+        screen.getByPlaceholderText(/FR12/),
+        "FR12123451234512345678901234567890"
+      );
+      fireEvent(screen.getByPlaceholderText("0.00"), "blur");
+
+      await waitFor(() => {
+        expect(
+          screen.getByText(
+            "Payouts over £1,000 are only available in the mobile app."
+          )
+        ).toBeTruthy();
+      });
+
+      fireEvent.press(screen.getByText("Confirm"));
+      expect(screen.queryByText("Confirm Payout")).toBeNull();
+    } finally {
+      (Platform as { OS: string }).OS = originalOS;
+    }
+  });
+
+  it("shows setup biometrics message when biometrics not available for payout over £1,000", async () => {
+    const error = new Error("Biometrics not available") as Error & {
+      code?: string;
+    };
+    error.code = "BIOMETRIC_NOT_AVAILABLE";
+    mockIsBiometricAuthenticated.mockRejectedValueOnce(error);
+    queryClient.clear();
+
+    server.use(
+      http.get(`${API_BASE_URL}/api/merchant`, () =>
+        HttpResponse.json({
+          available_balance: 500000,
+          pending_balance: 25000,
+          currency: "GBP",
+          activity: [],
+        })
+      )
+    );
+
+    render(<PayoutsScreen />, { wrapper });
+
+    await waitFor(() => expect(screen.getByText("Confirm")).toBeTruthy());
+
+    fireEvent.changeText(screen.getByPlaceholderText("0.00"), "1500");
+    fireEvent.changeText(
+      screen.getByPlaceholderText(/FR12/),
+      "FR12123451234512345678901234567890"
+    );
+    fireEvent.press(screen.getByText("Confirm"));
+
+    await waitFor(() => expect(screen.getByText("Confirm Payout")).toBeTruthy());
+
+    fireEvent.press(screen.getByLabelText("Confirm payout"));
+
+    await waitFor(() => {
+      expect(screen.getByText("Unable to Process Payout")).toBeTruthy();
+      expect(
+        screen.getByText(
+          "Please set up biometric authentication in your device settings to complete payouts over £1,000."
+        )
+      ).toBeTruthy();
       expect(screen.getByText("Try Again")).toBeTruthy();
     });
   });

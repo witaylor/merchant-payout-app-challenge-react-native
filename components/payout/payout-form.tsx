@@ -130,6 +130,14 @@ export function PayoutForm({ initialValues, onSubmit }: PayoutFormProps) {
                   >
                     {amountError}
                   </ThemedText>
+                ) : Platform.OS === "web" ? (
+                  <ThemedText
+                    type="default"
+                    style={[styles.hint, { color: colors.textSecondary }]}
+                  >
+                    Maximum £1,000 on web. Use the mobile app for larger
+                    payouts.
+                  </ThemedText>
                 ) : null}
               </View>
               <View style={styles.colCurrency}>

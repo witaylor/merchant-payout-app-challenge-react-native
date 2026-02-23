@@ -1,7 +1,10 @@
+import { Platform } from "react-native";
 import { z } from "zod";
 
 import { CURRENCIES } from "@/constants/currencies";
 import { normalizeIban } from "@/utils/iban";
+import { BIOMETRIC_THRESHOLD_MAJOR_UNITS } from "@/utils/payout";
+import { WEB_PAYOUT_LIMIT_MESSAGE } from "@/utils/payout-error";
 
 /**
  * IBAN structure per ISO 13616: 2 letters (country) + 2 digits (check) + 1-30 alphanumeric (BBAN).
@@ -35,6 +38,7 @@ export const payoutFormSchema = z.object({
   iban: z
     .string()
     .min(1, "IBAN is required")
+    .refine((val) => !/\s/.test(val.trim()), "IBAN must not contain spaces")
     .transform((val) => normalizeIban(val))
     .refine(
       (val) =>
@@ -50,17 +54,29 @@ export type PayoutFormSchema = z.infer<typeof payoutFormSchema>;
 /**
  * Validates raw form input. Returns success with transformed data or failure with issues.
  * Use this to enable/disable Submit and to validate before submit.
+ * On web, amounts over £1,000 are rejected (biometric auth not available).
  */
 export function validatePayoutForm(data: {
   amount: string;
   currency: (typeof CURRENCIES)[number];
   iban: string;
 }) {
-  const normalized = {
-    ...data,
-    iban: normalizeIban(data.iban) || data.iban,
-  };
-  return payoutFormSchema.safeParse(normalized);
+  const result = payoutFormSchema.safeParse(data);
+
+  if (result.success && Platform.OS === "web" && result.data.amount > BIOMETRIC_THRESHOLD_MAJOR_UNITS) {
+    return {
+      success: false as const,
+      error: new z.ZodError([
+        {
+          code: "custom",
+          path: ["amount"],
+          message: WEB_PAYOUT_LIMIT_MESSAGE,
+        },
+      ]),
+    };
+  }
+
+  return result;
 }
 
 export type PayoutFormFieldErrors = {
@@ -78,7 +94,9 @@ export function getPayoutFormFieldErrors(data: {
 }): PayoutFormFieldErrors {
   const result = validatePayoutForm(data);
   if (result.success) return {};
-  const fieldErrors = result.error.flatten().fieldErrors;
+  const fieldErrors = result.error.flatten().fieldErrors as Partial<
+    Record<"amount" | "iban", string[]>
+  >;
   return {
     amount: fieldErrors.amount?.[0],
     iban: fieldErrors.iban?.[0],

@@ -10,7 +10,10 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.reactnativeinterview"
+      "bundleIdentifier": "com.anonymous.reactnativeinterview",
+      "infoPlist": {
+        "NSFaceIDUsageDescription": "Authenticate to authorise payouts over £1,000"
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -21,7 +24,8 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.anonymous.reactnativeinterview"
+      "package": "com.anonymous.reactnativeinterview",
+      "permissions": ["android.permission.USE_BIOMETRIC"]
     },
     "web": {
       "output": "static",
