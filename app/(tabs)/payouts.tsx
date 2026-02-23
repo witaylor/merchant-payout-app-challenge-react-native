@@ -1,4 +1,6 @@
-import { StyleSheet } from "react-native";
+import { useEffect } from "react";
+import { Alert, Platform, StyleSheet } from "react-native";
+import { addScreenshotTakenListener } from "screen-security";
 
 import { ConfirmPayoutModal } from "@/components/payout/confirm-payout-modal";
 import { PayoutForm } from "@/components/payout/payout-form";
@@ -9,6 +11,13 @@ import { ScreenContent } from "@/components/ui/screen-content";
 import { spacing } from "@/constants/theme";
 import { usePayoutFlow } from "@/hooks/use-payout-flow";
 
+const SCREENSHOT_ALERT = {
+  title: "Security Reminder",
+  message:
+    "Please keep your financial data private. Screenshots may contain sensitive information.",
+  button: { text: "OK" },
+};
+
 export default function PayoutsScreen() {
   const {
     state: { screenState, formData, errorMessage },
@@ -17,6 +26,16 @@ export default function PayoutsScreen() {
     mutation,
     defaultFormData,
   } = usePayoutFlow();
+
+  useEffect(() => {
+    if (Platform.OS === "web") return;
+    const subscription = addScreenshotTakenListener(() => {
+      Alert.alert(SCREENSHOT_ALERT.title, SCREENSHOT_ALERT.message, [
+        SCREENSHOT_ALERT.button,
+      ]);
+    });
+    return () => subscription.remove();
+  }, []);
 
   return (
     <ThemedView style={styles.container}>

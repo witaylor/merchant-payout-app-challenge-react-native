@@ -1,8 +1,11 @@
 package com.anonymous.reactnativeinterview.screensecurity
 
+import android.os.Build
+import android.app.Activity
 import java.util.concurrent.atomic.AtomicBoolean
 import android.provider.Settings
 import androidx.biometric.BiometricManager
+import androidx.core.os.bundleOf
 import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
@@ -16,8 +19,37 @@ class ScreenSecurityModule : Module() {
   private val context
     get() = appContext.reactContext ?: throw Exceptions.ReactContextLost()
 
+  private val safeCurrentActivity
+    get() = appContext.currentActivity
+
+  private var screenCaptureCallback: Activity.ScreenCaptureCallback? = null
+  private var isRegistered = false
+
   override fun definition() = ModuleDefinition {
     Name("ScreenSecurity")
+
+    Events("onScreenshotTaken")
+
+    OnCreate {
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+        screenCaptureCallback = Activity.ScreenCaptureCallback {
+          this@ScreenSecurityModule.sendEvent("onScreenshotTaken", bundleOf())
+        }
+        registerScreenCaptureCallbackIfNeeded()
+      }
+    }
+
+    OnActivityEntersForeground {
+      registerScreenCaptureCallbackIfNeeded()
+    }
+
+    OnActivityEntersBackground {
+      unregisterScreenCaptureCallback()
+    }
+
+    OnDestroy {
+      unregisterScreenCaptureCallback()
+    }
 
     Function("getDeviceId") {
       Settings.Secure.getString(
@@ -83,6 +115,40 @@ class ScreenSecurityModule : Module() {
 
         biometricPrompt.authenticate(promptInfo)
       }
+    }
+  }
+
+  private fun registerScreenCaptureCallbackIfNeeded() {
+    if (isRegistered) return
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) return
+    val activity = safeCurrentActivity ?: return
+    val callback = screenCaptureCallback ?: return
+    activity.runOnUiThread {
+      if (!isRegistered) {
+        activity.registerScreenCaptureCallback(
+          ContextCompat.getMainExecutor(context),
+          callback,
+        )
+        isRegistered = true
+      }
+    }
+  }
+
+  private fun unregisterScreenCaptureCallback() {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) return
+    val activity = safeCurrentActivity
+    val callback = screenCaptureCallback
+    if (activity != null && callback != null && isRegistered) {
+      activity.runOnUiThread {
+        try {
+          activity.unregisterScreenCaptureCallback(callback)
+        } catch (_: Throwable) {
+          // Activity may be destroyed; ignore
+        }
+        isRegistered = false
+      }
+    } else {
+      isRegistered = false
     }
   }
 }

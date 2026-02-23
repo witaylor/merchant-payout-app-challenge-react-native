@@ -20,6 +20,7 @@ const mockIsBiometricAuthenticated = jest.fn(() => Promise.resolve(true));
 jest.mock("screen-security", () => ({
   getDeviceId: () => mockGetDeviceId(),
   isBiometricAuthenticated: () => mockIsBiometricAuthenticated(),
+  addScreenshotTakenListener: () => ({ remove: () => {} }),
 }));
 
 describe("PayoutsScreen", () => {
