@@ -9,27 +9,27 @@
 /* Begin PBXBuildFile section */
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
-		65523387B6679F13D1FA51DB /* libPods-reactnativeinterview.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 90084BF712879B09F00F7156 /* libPods-reactnativeinterview.a */; };
-		65BCC968635CD8D20D035BE9 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = FD80BE17459A306808781DA5 /* PrivacyInfo.xcprivacy */; };
-		9E6B8B81D3F44C081EE1ACDD /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6433B16D60D5A4F786E62D71 /* ExpoModulesProvider.swift */; };
+		8F96184B26DBE612817DFC94 /* libPods-reactnativeinterview.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 880985900DC20A3EF5D2263A /* libPods-reactnativeinterview.a */; };
+		A3FB0EC4262DD61D4FA9312A /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B691C108612135023F4AE5 /* ExpoModulesProvider.swift */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
 		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
+		F82CEF1877FC45F735393D88 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 2F31FFC555C124495DECD529 /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0F7438AFC517A3AA1CC51B41 /* Pods-reactnativeinterview.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-reactnativeinterview.debug.xcconfig"; path = "Target Support Files/Pods-reactnativeinterview/Pods-reactnativeinterview.debug.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* reactnativeinterview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = reactnativeinterview.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = reactnativeinterview/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = reactnativeinterview/Info.plist; sourceTree = "<group>"; };
-		6433B16D60D5A4F786E62D71 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-reactnativeinterview/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
-		90084BF712879B09F00F7156 /* libPods-reactnativeinterview.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-reactnativeinterview.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A684F03DD7B7461963EB72AF /* Pods-reactnativeinterview.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-reactnativeinterview.release.xcconfig"; path = "Target Support Files/Pods-reactnativeinterview/Pods-reactnativeinterview.release.xcconfig"; sourceTree = "<group>"; };
+		2F31FFC555C124495DECD529 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = reactnativeinterview/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		5C01CEB95448F8464E81AE22 /* Pods-reactnativeinterview.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-reactnativeinterview.release.xcconfig"; path = "Target Support Files/Pods-reactnativeinterview/Pods-reactnativeinterview.release.xcconfig"; sourceTree = "<group>"; };
+		6799490A83C47A796719A6EA /* Pods-reactnativeinterview.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-reactnativeinterview.debug.xcconfig"; path = "Target Support Files/Pods-reactnativeinterview/Pods-reactnativeinterview.debug.xcconfig"; sourceTree = "<group>"; };
+		84B691C108612135023F4AE5 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-reactnativeinterview/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		880985900DC20A3EF5D2263A /* libPods-reactnativeinterview.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-reactnativeinterview.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = reactnativeinterview/SplashScreen.storyboard; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = reactnativeinterview/AppDelegate.swift; sourceTree = "<group>"; };
 		F11748442D0722820044C1D9 /* reactnativeinterview-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "reactnativeinterview-Bridging-Header.h"; path = "reactnativeinterview/reactnativeinterview-Bridging-Header.h"; sourceTree = "<group>"; };
-		FD80BE17459A306808781DA5 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = reactnativeinterview/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,23 +37,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				65523387B6679F13D1FA51DB /* libPods-reactnativeinterview.a in Frameworks */,
+				8F96184B26DBE612817DFC94 /* libPods-reactnativeinterview.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		03421FE3BAA24D301512DD1E /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				0F7438AFC517A3AA1CC51B41 /* Pods-reactnativeinterview.debug.xcconfig */,
-				A684F03DD7B7461963EB72AF /* Pods-reactnativeinterview.release.xcconfig */,
-			);
-			name = Pods;
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		13B07FAE1A68108700A75B9A /* reactnativeinterview */ = {
 			isa = PBXGroup;
 			children = (
@@ -63,7 +53,7 @@
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
-				FD80BE17459A306808781DA5 /* PrivacyInfo.xcprivacy */,
+				2F31FFC555C124495DECD529 /* PrivacyInfo.xcprivacy */,
 			);
 			name = reactnativeinterview;
 			sourceTree = "<group>";
@@ -72,25 +62,19 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				90084BF712879B09F00F7156 /* libPods-reactnativeinterview.a */,
+				880985900DC20A3EF5D2263A /* libPods-reactnativeinterview.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		51C57B3D5B7D30373129991C /* ExpoModulesProviders */ = {
+		33C32D3E82A1C797697AFE09 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				6B8EE9914352C302F7C05903 /* reactnativeinterview */,
+				6799490A83C47A796719A6EA /* Pods-reactnativeinterview.debug.xcconfig */,
+				5C01CEB95448F8464E81AE22 /* Pods-reactnativeinterview.release.xcconfig */,
 			);
-			name = ExpoModulesProviders;
-			sourceTree = "<group>";
-		};
-		6B8EE9914352C302F7C05903 /* reactnativeinterview */ = {
-			isa = PBXGroup;
-			children = (
-				6433B16D60D5A4F786E62D71 /* ExpoModulesProvider.swift */,
-			);
-			name = reactnativeinterview;
+			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -107,8 +91,8 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				03421FE3BAA24D301512DD1E /* Pods */,
-				51C57B3D5B7D30373129991C /* ExpoModulesProviders */,
+				33C32D3E82A1C797697AFE09 /* Pods */,
+				E8E72DCC959E720662DDAC49 /* ExpoModulesProviders */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -132,6 +116,22 @@
 			path = reactnativeinterview/Supporting;
 			sourceTree = "<group>";
 		};
+		E8E72DCC959E720662DDAC49 /* ExpoModulesProviders */ = {
+			isa = PBXGroup;
+			children = (
+				FD8459CE4ED625CD6BB3A9A1 /* reactnativeinterview */,
+			);
+			name = ExpoModulesProviders;
+			sourceTree = "<group>";
+		};
+		FD8459CE4ED625CD6BB3A9A1 /* reactnativeinterview */ = {
+			isa = PBXGroup;
+			children = (
+				84B691C108612135023F4AE5 /* ExpoModulesProvider.swift */,
+			);
+			name = reactnativeinterview;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -140,13 +140,13 @@
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "reactnativeinterview" */;
 			buildPhases = (
 				08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */,
-				C14D95FBCF95A6AEDEF73480 /* [Expo] Configure project */,
+				DB6A6A763AD2FCB84A956177 /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
-				99586BCB15B9062CC59996F2 /* [CP] Embed Pods Frameworks */,
+				510EBBF4EE7545C828B2B1B9 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -167,8 +167,6 @@
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
 						LastSwiftMigration = 1250;
-						DevelopmentTeam = "C4KMRR4U5J";
-						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -198,7 +196,7 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				65BCC968635CD8D20D035BE9 /* PrivacyInfo.xcprivacy in Resources */,
+				F82CEF1877FC45F735393D88 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -244,6 +242,28 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		510EBBF4EE7545C828B2B1B9 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-reactnativeinterview/Pods-reactnativeinterview-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/React-Core-prebuilt/React.framework/React",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ReactNativeDependencies/ReactNativeDependencies.framework/ReactNativeDependencies",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/React.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactNativeDependencies.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-reactnativeinterview/Pods-reactnativeinterview-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -276,29 +296,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-reactnativeinterview/Pods-reactnativeinterview-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		99586BCB15B9062CC59996F2 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-reactnativeinterview/Pods-reactnativeinterview-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/React-Core-prebuilt/React.framework/React",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ReactNativeDependencies/ReactNativeDependencies.framework/ReactNativeDependencies",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/React.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactNativeDependencies.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-reactnativeinterview/Pods-reactnativeinterview-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C14D95FBCF95A6AEDEF73480 /* [Expo] Configure project */ = {
+		DB6A6A763AD2FCB84A956177 /* [Expo] Configure project */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -330,7 +328,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */,
-				9E6B8B81D3F44C081EE1ACDD /* ExpoModulesProvider.swift in Sources */,
+				A3FB0EC4262DD61D4FA9312A /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -339,7 +337,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0F7438AFC517A3AA1CC51B41 /* Pods-reactnativeinterview.debug.xcconfig */;
+			baseConfigurationReference = 6799490A83C47A796719A6EA /* Pods-reactnativeinterview.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -370,15 +368,12 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
-				DEVELOPMENT_TEAM = "C4KMRR4U5J";
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
 			};
 			name = Debug;
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A684F03DD7B7461963EB72AF /* Pods-reactnativeinterview.release.xcconfig */;
+			baseConfigurationReference = 5C01CEB95448F8464E81AE22 /* Pods-reactnativeinterview.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -403,9 +398,6 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
-				DEVELOPMENT_TEAM = "C4KMRR4U5J";
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
 			};
 			name = Release;
 		};

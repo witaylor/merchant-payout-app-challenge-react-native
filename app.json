@@ -25,7 +25,7 @@
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
       "package": "com.anonymous.reactnativeinterview",
-      "permissions": ["android.permission.USE_BIOMETRIC"]
+      "permissions": ["android.permission.USE_BIOMETRIC", "android.permission.DETECT_SCREEN_CAPTURE"]
     },
     "web": {
       "output": "static",
