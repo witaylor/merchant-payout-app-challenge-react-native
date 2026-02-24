@@ -408,15 +408,6 @@ export function getPaginatedActivity(
 ): PaginatedActivityResponse {
   let allActivities = getAllActivities();
 
-  // If fetching first page (no cursor or cursor is "first"), add new activities
-  if (cursor === null || cursor === "first") {
-    const newActivities = generateNewActivities(2);
-    // Prepend new activities to the beginning (they're already sorted by most recent date)
-    allActivities = [...newActivities, ...allActivities];
-    // Update cache with new activities
-    cachedActivities = allActivities;
-  }
-
   // Find starting index
   let startIndex = 0;
   if (cursor && cursor !== "first") {

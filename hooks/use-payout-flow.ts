@@ -4,19 +4,19 @@ import { getDeviceId, isBiometricAuthenticated } from "screen-security";
 
 import type { PayoutFormData } from "@/components/payout/payout-form";
 import { DEFAULT_CURRENCY } from "@/constants/currencies";
-import { useMerchant } from "@/hooks/use-merchant";
 import { usePayoutMutation } from "@/hooks/use-payout-mutation";
 import { normalizeIban } from "@/utils/iban";
-import { formatPayoutAmountForDisplay, toMinorUnits } from "@/utils/payout";
+import {
+  BIOMETRIC_THRESHOLD_MINOR_UNITS,
+  formatPayoutAmountForDisplay,
+  toMinorUnits,
+} from "@/utils/payout";
 import {
   BIOMETRIC_CANCELLED_MESSAGE,
   BIOMETRIC_NOT_AVAILABLE_MESSAGE,
   getPayoutErrorMessage,
-  INSUFFICIENT_FUNDS_MESSAGE,
   WEB_PAYOUT_LIMIT_MESSAGE,
 } from "@/utils/payout-error";
-
-const BIOMETRIC_THRESHOLD_MINOR_UNITS = 100_000;
 
 type ScreenState = "form" | "confirming" | "success" | "failed";
 
@@ -25,7 +25,6 @@ export function usePayoutFlow() {
   const [formData, setFormData] = useState<PayoutFormData | null>(null);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
-  const { data: merchant } = useMerchant();
   const mutation = usePayoutMutation();
 
   const handleFormSubmit = useCallback((data: PayoutFormData) => {
@@ -72,15 +71,6 @@ export function usePayoutFlow() {
       }
     }
 
-    // Client-side balance check. When payout currency matches account currency we
-    // compare directly. When it differs (e.g. EUR payout from GBP account), we use
-    // a 1:1 minor-units heuristic since we don't have exchange rates client-side.
-    if (merchant && amountInMinorUnits > merchant.available_balance) {
-      setErrorMessage(INSUFFICIENT_FUNDS_MESSAGE);
-      setScreenState("failed");
-      return;
-    }
-
     try {
       const deviceId = getDeviceId();
       await mutation.mutateAsync({
@@ -98,7 +88,7 @@ export function usePayoutFlow() {
       );
       setScreenState("failed");
     }
-  }, [formData, merchant, mutation]);
+  }, [formData, mutation]);
 
   const handleCreateAnother = useCallback(() => {
     setFormData(null);

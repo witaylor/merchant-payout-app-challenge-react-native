@@ -63,18 +63,8 @@ export function ConfirmPayoutModal({
           <View
             style={[
               styles.card,
-              {
-                backgroundColor: colors.surface,
-                ...Platform.select({
-                  ios: {
-                    shadowColor: "#000",
-                    shadowOffset: { width: 0, height: 4 },
-                    shadowOpacity: 0.2,
-                    shadowRadius: 16,
-                  },
-                  android: { elevation: 16 },
-                }),
-              },
+              styles.cardShadow,
+              { backgroundColor: colors.surface },
             ]}
           >
             <View>
@@ -89,7 +79,8 @@ export function ConfirmPayoutModal({
               <View style={styles.row}>
                 <ThemedText
                   type="default"
-                  style={{ color: colors.textSecondary }}
+                  lightColor={Colors.light.textSecondary}
+                  darkColor={Colors.dark.textSecondary}
                 >
                   Amount:
                 </ThemedText>
@@ -104,7 +95,8 @@ export function ConfirmPayoutModal({
               <View style={styles.row}>
                 <ThemedText
                   type="default"
-                  style={{ color: colors.textSecondary }}
+                  lightColor={Colors.light.textSecondary}
+                  darkColor={Colors.dark.textSecondary}
                 >
                   Currency:
                 </ThemedText>
@@ -113,7 +105,8 @@ export function ConfirmPayoutModal({
               <View style={styles.row}>
                 <ThemedText
                   type="default"
-                  style={{ color: colors.textSecondary }}
+                  lightColor={Colors.light.textSecondary}
+                  darkColor={Colors.dark.textSecondary}
                 >
                   IBAN:
                 </ThemedText>
@@ -141,7 +134,7 @@ export function ConfirmPayoutModal({
               </View>
               <View style={styles.buttonWrapper}>
                 <Button
-                  variant="tint"
+                  variant="accent"
                   onPress={onConfirm}
                   disabled={isSubmitting}
                   style={styles.button}
@@ -156,7 +149,7 @@ export function ConfirmPayoutModal({
                     style={[
                       styles.processingOverlay,
                       {
-                        backgroundColor: colors.button.tint.background,
+                        backgroundColor: colors.button.accent.background,
                       },
                     ]}
                     pointerEvents="none"
@@ -192,6 +185,17 @@ const styles = StyleSheet.create({
   card: {
     borderRadius: 16,
     padding: spacing(3),
+  },
+  cardShadow: {
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.2,
+        shadowRadius: 16,
+      },
+      android: { elevation: 16 },
+    }),
   },
   title: {
     fontSize: 24,

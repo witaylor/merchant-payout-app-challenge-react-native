@@ -14,7 +14,10 @@ export const BalanceItem = memo(function BalanceItem({
   amount,
 }: BalanceItemProps) {
   return (
-    <View style={styles.container}>
+    <View
+      style={styles.container}
+      accessibilityLabel={`${title} balance: ${amount}`}
+    >
       <ThemedText
         style={styles.label}
         lightColor={Colors.light.textSecondary}
