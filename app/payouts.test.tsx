@@ -195,10 +195,10 @@ describe("PayoutsScreen", () => {
     });
   });
 
-  it("shows error view on 500 Internal Server Error from API", async () => {
+  it("shows error view on 503 Service Unavailable from API", async () => {
     render(<PayoutsScreen />, { wrapper });
 
-    fireEvent.changeText(screen.getByPlaceholderText("0.00"), "777.77");
+    fireEvent.changeText(screen.getByPlaceholderText("0.00"), "999.99");
     fireEvent.changeText(
       screen.getByPlaceholderText(/FR12/),
       "FR12123451234512345678901234567890"
@@ -211,12 +211,14 @@ describe("PayoutsScreen", () => {
 
     await waitFor(() => {
       expect(screen.getByText("Unable to Process Payout")).toBeTruthy();
-      expect(screen.getByText("Internal Server Error")).toBeTruthy();
+      expect(
+        screen.getByText("Service temporarily unavailable. Please try again later.")
+      ).toBeTruthy();
       expect(screen.getByText("Try Again")).toBeTruthy();
     });
   });
 
-  it("shows error view for client-side insufficient funds when amount exceeds balance", async () => {
+  it("shows insufficient funds hint under amount when amount exceeds balance", async () => {
     queryClient.clear();
 
     server.use(
@@ -239,17 +241,14 @@ describe("PayoutsScreen", () => {
       screen.getByPlaceholderText(/FR12/),
       "FR12123451234512345678901234567890"
     );
-    fireEvent.press(screen.getByText("Confirm"));
-
-    await waitFor(() => expect(screen.getByText("Confirm Payout")).toBeTruthy());
-
-    fireEvent.press(screen.getByLabelText("Confirm payout"));
+    fireEvent(screen.getByPlaceholderText("0.00"), "blur");
 
     await waitFor(() => {
-      expect(screen.getByText("Unable to Process Payout")).toBeTruthy();
       expect(screen.getByText("Insufficient funds.")).toBeTruthy();
-      expect(screen.getByText("Try Again")).toBeTruthy();
     });
+
+    fireEvent.press(screen.getByText("Confirm"));
+    expect(screen.queryByText("Confirm Payout")).toBeNull();
   });
 
   it("proceeds without biometric when payout is £1,000 or less", async () => {

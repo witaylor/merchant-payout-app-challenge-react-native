@@ -59,16 +59,8 @@ The types for the API responses are configured in `types/api.ts`.
 
 The mock API supports specific triggers to test your error handling:
 
-* **Internal Server Error**: `POST /api/payouts` with an amount of `777.77` (77777 pence) returns a `500 Internal Server Error`.
 * **Service Unavailable**: `POST /api/payouts` with an amount of `999.99` (99999 pence) returns a `503 Service Unavailable`.
 * **Insufficient Funds**: `POST /api/payouts` with an amount of `888.88` (88888 pence) returns a `400 Bad Request`.
-
-#### How to Test the Payout Error Screen Manually
-
-1. **Insufficient funds (API)**: Enter **888.88** as the amount and complete the flow. The mock API returns 400 and the error view appears with "Unable to Process Payout" and "Insufficient funds."
-2. **Insufficient funds (client-side)**: With the default mock balance of £5,000.00, enter any amount **greater than 5000** (e.g. **5001** or **6000**) and confirm. The app shows the error before calling the API.
-3. **Service unavailable**: Enter **999.99** as the amount and complete the flow. The mock returns 503 and the error view shows "Service temporarily unavailable."
-4. **Internal server error (500)**: Enter **777.77** as the amount and complete the flow. The mock returns 500 and the error view shows "Internal Server Error" (or the message from the API).
 
 ## 📝 Evaluation Criteria
 
@@ -213,6 +205,7 @@ Your solution will be evaluated based on:
 **Goal**: Identify the Merchant's device identifier using a Native Bridge and send as part of the Payout API request.
 
 **Requirements**:
+
 * **Create** a native module named `ScreenSecurity` (this module will be extended in Steps 5 and 6).
 * **Function**: Implement a `getDeviceId()` function in the `ScreenSecurity` native module that returns a unique device identifier.
 * **Send**: Send this ID with the Payout request as `device_id`.
@@ -249,6 +242,7 @@ Your solution will be evaluated based on:
 * If biometrics are not setup, inform the user to setup biometrics in the settings and abort the payout.
 
 **Simulator testing**:
+
 * iOS: In Simulator menu, go to `Features` > `Face ID` > `Enrolled`. Then trigger your payout and select `Features` > `Face ID` > `Matching Face`.
 * Android: Go to Emulated devices `Settings` > `Security` > `Fingerprint` or search `fingerprint` in the search bar for the Settings screen and enable Authentication. Then in the Simuulator you can use the Extended Controls `(...)` > `Fingerprint` to simulate a touch.
 
@@ -289,7 +283,8 @@ Your solution will be evaluated based on:
 * **UI Reaction**: On the **Payout** screen, listen for this event and show a non-intrusive warning (like a Toast or an Alert) reminding the user to keep their financial data private.
 
 **Simulator testing**:
-* **iOS**: Use **Device → Trigger Screenshot** from the Simulator menu 
+
+* **iOS**: Use **Device → Trigger Screenshot** from the Simulator menu
 
   **Note**: `Cmd + S` does not trigger the notification in the simulator.
 * **Android**: The Android `14+` API requires hardware button presses. In an emulator, you can simulate this using the emulator's Power and Volume Down buttons.

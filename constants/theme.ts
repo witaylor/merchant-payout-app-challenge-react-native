@@ -10,93 +10,63 @@ const SPACING_BASE = 8;
 /** Returns spacing in px based on 8px grid. spacing(1) = 8, spacing(2) = 16, spacing(0.5) = 4 */
 export const spacing = (n: number): number => n * SPACING_BASE;
 
-const tintColorLight = "#0a7ea4";
-const tintColorDark = "#fff";
-const tintBackgroundLight = "#E0F2F7";
-const tintBackgroundDark = "rgba(255, 255, 255, 0.15)";
-const positiveAmountLight = "#22c55e";
-const positiveAmountDark = "#4ade80";
-const separatorLight = "rgba(128, 128, 128, 0.2)";
-const separatorDark = "rgba(128, 128, 128, 0.15)";
+// Shared color values
+const brand = { light: "#0a7ea4", dark: "#fff" };
+const brandMuted = { light: "#E0F2F7", dark: "rgba(255, 255, 255, 0.15)" };
+const textMuted = { light: "#687076", dark: "#9BA1A6" };
+const error = { light: "#ffa2a2", dark: "#b86b6b" };
+const onAccent = { light: "#fff", dark: "#11181C" };
 
 export const Colors = {
   light: {
     text: "#11181C",
-    textSecondary: "#687076",
+    textSecondary: textMuted.light,
     background: "#fff",
-    tint: tintColorLight,
-    tintBackground: tintBackgroundLight,
-    positiveAmount: positiveAmountLight,
-    error: "#ffa2a2",
+    tint: brand.light,
+    tintBackground: brandMuted.light,
+    positiveAmount: "#22c55e",
+    error: error.light,
     inputBackground: "#f1f3f4",
     surface: "#fff",
-    icon: "#687076",
-    tabIconDefault: "#687076",
-    tabIconSelected: tintColorLight,
-    separator: separatorLight,
+    icon: textMuted.light,
+    tabIconDefault: textMuted.light,
+    tabIconSelected: brand.light,
+    separator: "rgba(128, 128, 128, 0.2)",
     button: {
-      primary: {
-        background: tintBackgroundLight,
-        text: tintColorLight,
-      },
-      tint: {
-        background: tintColorLight,
-        text: "#fff",
-      },
-      error: {
-        background: "#ffa2a2",
-        text: "#fff",
-      },
-      secondary: {
-        background: "#e8eaed",
-        text: "#11181C",
-      },
+      primary: { background: brandMuted.light, text: brand.light },
+      accent: { background: brand.light, text: onAccent.light },
+      error: { background: error.light, text: onAccent.light },
+      secondary: { background: "#e8eaed", text: "#11181C" },
     },
   },
   dark: {
     text: "#ECEDEE",
-    textSecondary: "#9BA1A6",
+    textSecondary: textMuted.dark,
     background: "#151718",
-    tint: tintColorDark,
-    tintBackground: tintBackgroundDark,
-    positiveAmount: positiveAmountDark,
-    error: "#b86b6b",
+    tint: brand.dark,
+    tintBackground: brandMuted.dark,
+    positiveAmount: "#4ade80",
+    error: error.dark,
     inputBackground: "#1f2326",
     surface: "#252a2e",
-    icon: "#9BA1A6",
-    tabIconDefault: "#9BA1A6",
-    tabIconSelected: tintColorDark,
-    separator: separatorDark,
+    icon: textMuted.dark,
+    tabIconDefault: textMuted.dark,
+    tabIconSelected: brand.dark,
+    separator: "rgba(128, 128, 128, 0.15)",
     button: {
-      primary: {
-        background: tintBackgroundDark,
-        text: tintColorDark,
-      },
-      tint: {
-        background: tintColorDark,
-        text: "#11181C",
-      },
-      error: {
-        background: "#b86b6b",
-        text: "#fff",
-      },
-      secondary: {
-        background: "#2d3236",
-        text: "#ECEDEE",
-      },
+      primary: { background: brandMuted.dark, text: brand.dark },
+      accent: { background: brand.dark, text: onAccent.dark },
+      error: { background: error.dark, text: onAccent.dark },
+      secondary: { background: "#2d3236", text: "#ECEDEE" },
     },
   },
 };
 
 export const Fonts = Platform.select({
   ios: {
-    /** iOS `UIFontDescriptorSystemDesignDefault` */
     sans: "system-ui",
-    /** iOS `UIFontDescriptorSystemDesignSerif` */
     serif: "ui-serif",
-    /** iOS `UIFontDescriptorSystemDesignRounded` */
     rounded: "ui-rounded",
-    /** iOS `UIFontDescriptorSystemDesignMonospaced` */
     mono: "ui-monospace",
   },
   default: {

@@ -1,4 +1,8 @@
-import { forwardRef } from "react";
+import {
+  forwardRef,
+  type ComponentRef,
+  type PropsWithChildren,
+} from "react";
 import {
   Pressable,
   StyleSheet,
@@ -10,9 +14,7 @@ import { ThemedText } from "@/components/themed-text";
 import { Colors, spacing } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 
-import type { ComponentRef, PropsWithChildren } from "react";
-
-type ButtonVariant = "primary" | "secondary" | "error" | "tint";
+type ButtonVariant = "primary" | "secondary" | "error" | "accent";
 
 type ButtonProps = PropsWithChildren<{
   variant?: ButtonVariant;

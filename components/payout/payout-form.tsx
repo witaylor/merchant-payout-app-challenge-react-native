@@ -18,12 +18,15 @@ import { CURRENCIES, DEFAULT_CURRENCY } from "@/constants/currencies";
 import { Colors, spacing } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { useDebouncedState } from "@/hooks/use-debounced-state";
+import { useMerchant } from "@/hooks/use-merchant";
 import type { Currency } from "@/types/api";
 
 import {
   getPayoutFormFieldErrors,
   validatePayoutForm,
 } from "./payout-form-schema";
+import { toMinorUnits } from "@/utils/payout";
+import { INSUFFICIENT_FUNDS_MESSAGE } from "@/utils/payout-error";
 
 const IBAN_DEBOUNCE_MS = 500;
 
@@ -53,6 +56,7 @@ export function PayoutForm({ initialValues, onSubmit }: PayoutFormProps) {
 
   const theme = useColorScheme() ?? "light";
   const colors = Colors[theme];
+  const { data: merchant } = useMerchant();
 
   const fieldErrors = useMemo(
     () => getPayoutFormFieldErrors({ amount, currency, iban: debouncedIban }),
@@ -60,6 +64,15 @@ export function PayoutForm({ initialValues, onSubmit }: PayoutFormProps) {
   );
   const amountError =
     amountTouched ? (fieldErrors.amount ?? null) : null;
+
+  const amountNum = parseFloat(amount);
+  const amountNumValid = !Number.isNaN(amountNum) && amountNum > 0;
+  const insufficientFunds =
+    merchant &&
+    amountNumValid &&
+    toMinorUnits(amountNum) > merchant.available_balance;
+  const insufficientFundsError = amountTouched ? insufficientFunds : false;
+
   const ibanError = useMemo(() => {
     if (!ibanTouched) return null;
     return fieldErrors.iban ?? null;
@@ -70,7 +83,12 @@ export function PayoutForm({ initialValues, onSubmit }: PayoutFormProps) {
     () => validatePayoutForm({ amount, currency, iban }),
     [amount, currency, iban],
   );
-  const isConfirmEnabled = validation.success;
+  const isConfirmEnabled = validation.success && !insufficientFunds;
+
+  const showWebLimitHint =
+    Platform.OS === "web" &&
+    !Number.isNaN(amountNum) &&
+    amountNum > 1000;
 
   const handleSubmit = useCallback(() => {
     setAmountTouched(true);
@@ -130,7 +148,14 @@ export function PayoutForm({ initialValues, onSubmit }: PayoutFormProps) {
                   >
                     {amountError}
                   </ThemedText>
-                ) : Platform.OS === "web" ? (
+                ) : insufficientFundsError ? (
+                  <ThemedText
+                    type="default"
+                    style={[styles.hint, { color: colors.error }]}
+                  >
+                    {INSUFFICIENT_FUNDS_MESSAGE}
+                  </ThemedText>
+                ) : showWebLimitHint ? (
                   <ThemedText
                     type="default"
                     style={[styles.hint, { color: colors.textSecondary }]}
@@ -209,7 +234,7 @@ export function PayoutForm({ initialValues, onSubmit }: PayoutFormProps) {
           </ThemedView>
 
           <Button
-            variant={isConfirmEnabled ? "tint" : "primary"}
+            variant={isConfirmEnabled ? "accent" : "primary"}
             onPress={handleSubmit}
             disabled={!isConfirmEnabled}
             accessibilityLabel="Confirm payout"
